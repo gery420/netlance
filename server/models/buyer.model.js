@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const {Schema} = mongoose;
 
@@ -37,7 +37,6 @@ const buyerSchema = new Schema({
         type: String,
         default: "buyer",
     },
-
 },
 {
     timestamps: true,

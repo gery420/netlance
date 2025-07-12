@@ -1,15 +1,64 @@
-exports.Login = (req, res) => {
-    // Logic for user login
-    res.send("Login successful");
+const Buyer = require('../models/buyer.model');
+const Seller = require('../models/seller.model');
+require('dotenv').config();
+const bcrypt = require('bcrypt');
+
+const isPasswordMatch = async(password, ogpassword) => {
+    return await bcrypt.compare(password, ogpassword);
+} 
+
+exports.Login = async (req, res, next) => {
+    try {
+        let user_name = req.body.username;
+        let user_password = req.body.password;
+        let user;
+
+        if (req.body.type === "buyer") {
+            user = await Buyer.findOne({
+                username: user_name
+                
+            });
+        } else if (req.body.type === "seller") {
+            user = await Seller.findOne({
+                username: user_name
+                
+            });
+        } else {
+            return res.status(400).json({
+                message: "Invalid user type",
+                success: false,
+            });
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false,
+            });
+        }
+       
+        if (!(await isPasswordMatch(user_password, user.password))) {
+            alert("Invalid credentials");
+            return res.status(401).json({
+                message: "Invalid credentials",
+                success: false,
+            });        
+        } 
+
+
+        return res.status(200).json({
+            message: "Login successful",
+            success: true,
+            user: {
+                username: user.username,
+                type: req.body.type,
+            },
+        });
+
+    }
+        
+    catch (error) {
+        return next(error);
+    }
 }
 
-exports.Logout = (req, res) => {
-    // Logic for user logout
-    res.send("Logout successful");
-}   
-
-exports.ResetPassword = (req, res) => {
-
-    // Logic for resetting user password
-    res.send("Password reset successful");
-}   
