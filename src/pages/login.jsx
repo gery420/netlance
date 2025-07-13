@@ -1,5 +1,7 @@
 import axios from "axios"
 import React, { useState } from "react";
+import swal from "sweetalert2";
+
 
 export const Login = () => {
 
@@ -23,17 +25,25 @@ export const Login = () => {
 
             setload(true);
 
-            let res = await axios.post("http://localhost:3001/auth/loginUser", postData, {withCredentials: true});
+            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/loginUser/`, postData, {withCredentials: true});
 
             if (res.data.success) {
-                alert("Login Successful");
+                swal.fire({
+                    title: "Success",
+                    text: res.data.message,
+                    icon: "success",
+                });
                 console.log("Login response:", res.data);
             }
             setload(false);
 
         } catch (error) {
             console.error("Error during login:", error);
-            alert("Login failed. Please try again.");
+            swal.fire({
+                title: "Error",
+                text: error.response ? error.response.data.message : "Login failed. Please try again.",
+                icon: "error",
+            });
             setload(false);
         }
     }

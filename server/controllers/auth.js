@@ -2,7 +2,6 @@ const Buyer = require('../models/buyer.model');
 const Seller = require('../models/seller.model');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-
 const isPasswordMatch = async(password, ogpassword) => {
     return await bcrypt.compare(password, ogpassword);
 } 
@@ -31,18 +30,17 @@ exports.Login = async (req, res, next) => {
         }
 
         if (!user) {
-            return res.status(404).json({
-                message: "User not found",
+            res.status(404).json({
                 success: false,
+                message: "User not found",
             });
         }
        
         if (!(await isPasswordMatch(user_password, user.password))) {
-            alert("Invalid credentials");
-            return res.status(401).json({
-                message: "Invalid credentials",
+            res.status(401).json({
                 success: false,
-            });        
+                message: "Incorrect Credentials",
+            });      
         } 
 
 

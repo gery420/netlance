@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import swal from "sweetalert2";
 export const SignUp = () => {
 
     const navigate = useNavigate();
@@ -28,11 +28,15 @@ export const SignUp = () => {
 
             setload(true);
 
-            let res = await axios.post("http://localhost:3001/buyer/registerBuyer", postData);
+            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData);
             console.log("Response from server:", res);
 
             if (res.data.success) {
-                alert("Registered Successfully");
+                swal.fire({
+                    title: "Registration Successful",
+                    text: res.data.message,
+                    icon: "success",
+                })
                 navigate("/login");
             }
             setload(false);
@@ -46,7 +50,11 @@ export const SignUp = () => {
             
         } catch (error) {
             console.error("Error during registration:", error);
-            alert("Registration failed. Please try again.");
+            swal.fire({
+                title: "Registration Failed",
+                text: error.response ? error.response.data.message : "An error occurred during registration.",
+                icon: "error",
+            });
             setload(false);
         }
     }
