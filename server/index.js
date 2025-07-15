@@ -8,6 +8,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     allowedOrigins: ["https://netlance.vercel.app", "http://localhost:3000"],
+    AccessControlAllowOrigin: true,
+    origin: ["https://netlance.vercel.app", "http://localhost:3000"],
+    exposedHeaders: ["Content-Length", "X-Requested-With"],
+
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
