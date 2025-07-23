@@ -7,6 +7,6 @@ const {
 
 router.get("/verifyAccount/:token", VerifyAccount);
 router.post("/loginUser", Login);
-router.get("/logoutUser", Auth, Logout);
+router.get("/logoutUser",  Logout);
 
 module.exports = router;
