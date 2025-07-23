@@ -11,14 +11,27 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
-  cors({
-    allowedOrigins: ["https://netlance.vercel.app", "http://localhost:3000","https://netlance-dkay.vercel.app/"],
-    AccessControlAllowOrigin: true,
-    origin: ["https://netlance.vercel.app", "http://localhost:3000", "https://netlance-dkay.vercel.app/"],
-    exposedHeaders: ["Content-Length", "X-Requested-With"],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-  })
+cors({
+	allowedOrigins: ["https://netlance.vercel.app", "http://localhost:3000","https://netlance-dkay.vercel.app/"],
+	AccessControlAllowOrigin: true,
+	allowedHeaders: [
+		"Content-Length",
+		"X-Requested-With",
+		"Authorization",
+		"Content-Type",	
+		"Cookie",
+		"Set-Cookie",
+		"Access-Control-Allow-Origin",
+		"Access-Control-Allow-Credentials",
+		"Access-Control-Allow-Headers",
+		"Access-Control-Allow-Methods",
+		"Access-Control-Expose-Headers",
+	],
+	origin: ["https://netlance.vercel.app", "http://localhost:3000", "https://netlance-dkay.vercel.app/"],
+	exposedHeaders: ["Content-Length", "X-Requested-With", "Authorization", "Content-Type", "Cookie", "Set-Cookie", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "Access-Control-Expose-Headers"],
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	credentials: true,
+})
 );
 
 app.use("/auth", require("./routes/auth"));
