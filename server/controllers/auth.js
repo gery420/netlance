@@ -103,7 +103,7 @@ exports.Login = async (req, res, next) => {
 
         //it will set the cookie in the browser
         res.cookie("s_Id", token, {
-            httpOnly: true,
+            httpOnly: false,
             expires: new Date(Date.now() + 8 * 3600000),
             // sameSite: 'none',
             // secure: true
