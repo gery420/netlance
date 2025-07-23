@@ -27,6 +27,7 @@ cors({
 		"Access-Control-Allow-Methods",
 		"Access-Control-Expose-Headers",
 	],
+	allowedMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 	origin: ["https://netlance.vercel.app", "http://localhost:3000", "https://netlance-dkay.vercel.app/"],
 	exposedHeaders: ["Content-Length", "X-Requested-With", "Authorization", "Content-Type", "Cookie", "Set-Cookie", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "Access-Control-Expose-Headers"],
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

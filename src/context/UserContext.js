@@ -38,7 +38,7 @@ const UserProvider = ({ children }) => {
             
             if (isLoggedIn){
                 let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/common/profile`, {
-                    withCredentials: false,});
+                    withCredentials: true,});
                 console.log("Profile response:", resp.data);
                 setProfile(resp.data.data.newUser);
             }
