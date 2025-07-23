@@ -22,8 +22,8 @@ const buyerSchema = new Schema({
         default: "https://www.gravatar.com/avatar/",
     },
     phonenumber : {
-        type: Number,
-        required: false,
+        type: String,
+        required: true,
     },
     country: {
         type: String,
@@ -32,6 +32,14 @@ const buyerSchema = new Schema({
     desc: {
         type: String,
         required: false,
+    },
+    verifyToken: {
+        type: String,
+        default: null,
+    },
+    verifyTokenExpiry: {
+        type: Date,
+        default: null,
     },
     type: {
         type: String,

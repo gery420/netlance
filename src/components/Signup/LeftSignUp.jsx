@@ -1,0 +1,147 @@
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import swal from "sweetalert2";
+import { UserContext } from "../../context/UserContext";
+
+export const LeftSignUp = () => {
+
+    const navigate = useNavigate();
+    let [data, setData] = useState({
+        username: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+        phonenumber: "",
+        country: "",
+    })
+
+    const [load, setload] = useState(false);
+    const {isLoggedIn} = useContext(UserContext);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/myAccount");
+        }
+    });
+
+    const submit = async (event) => {
+        try {
+
+            if (data.password !== data.confirmPassword) {
+                swal.fire({
+                    title: "Error",
+                    text: "Your passwords do not match!",
+                    icon: "error",
+                });
+                setData((prevState) => {
+                    return { ...prevState, password: "", confirmPassword: "" };
+                });
+                return;
+            }
+            if (data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "") {
+                swal.fire({
+                    title: "Incomplete Form",
+                    text: "Complete all fields!",
+                    icon: "error",
+                });
+                return;
+            }
+
+            event.preventDefault();
+            let postData = {
+                username: data.username,
+                password: data.password,
+                email: data.email,
+                phonenumber: data.phonenumber,
+                country: data.country
+            }
+
+            setload(true);
+
+            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData);
+            console.log("Response from server:", res);
+
+            setload(false);
+            setData({
+                username: "",
+                password: "",
+                confirmPassword: "",
+                email: "",
+                phonenumber: "",
+                country: ""
+            });
+            if (res.data.success) {
+                swal.fire({
+                    title: "Registration Successful",
+                    text: res.data.message,
+                    icon: "success",
+                })
+                navigate("/login");
+            }
+            
+        } catch (error) {
+            setload(false);
+            console.error("Error during registration:", error);
+            swal.fire({
+                title: "Registration Failed",
+                text: error.response ? error.response.data.message : "An error occurred during registration.",
+                icon: "error",
+            });
+        }
+    }
+    const updateInfo = (event) => {
+        const { name, value } = event.target;
+        //setting the data
+        setData((prevData) => {
+        return { ...prevData, [name]: value };
+        });
+    };
+
+    return (
+        <div>
+            <div className="relative w-[50dvw] max-sm:h-[50vh] h-[100dvh] bg-[var(--white)] flex items-center justify-center">
+                <div className="w-[70%] relative h-[85%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
+                    <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
+                        <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
+                    </div>
+                    <div className="flex flex-col relative items-start justify-start w-[70%] h-[80%]" >
+                        <label htmlFor="userName" className="w-[100%]">
+                        Username:
+                            <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
+                        <label htmlFor="password" className="w-[100%]">
+                        Password:
+                            <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
+                        <label htmlFor="password" className="w-[100%]">
+                        Confirm Password:
+                            <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
+                        <label htmlFor="email" className="w-[100%]">
+                        Email:
+                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl"/>
+                        </label>
+                        <br />
+                        <label htmlFor="phonenumber" className="w-[100%]">
+                        Phone Number:
+                            <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
+                        <label htmlFor="country" className="w-[100%]">
+                        Country:
+                            <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-2 w-[100%] h-[50%]  p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
+                        <div className="flex justify-center items-center w-[100%]">
+                            <button onClick={submit} className="w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] hover:bg-[var(--purple)] rounded-2xl" disabled={load? true : false} type="submit">Sign Up</button>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

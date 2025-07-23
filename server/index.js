@@ -2,6 +2,11 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+
+app.use(cookieParser());
+app.use(helmet());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -19,5 +24,7 @@ app.use(
 
 app.use("/auth", require("./routes/auth"));
 app.use("/buyer", require("./routes/buyer"));
+app.use("/seller", require("./routes/seller"));
+app.use("/common", require("./routes/common"));
 
 module.exports = app;
