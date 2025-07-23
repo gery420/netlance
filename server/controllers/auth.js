@@ -15,7 +15,7 @@ exports.VerifyAccount = catchAsyncError(async (req, res, next) => {
         console.log("\ntoken ", req.params);
         let token = req.params.token;
         console.log("\nToken in verification is", token);
-        //if last letter @:patient or #:doctor
+        //if last letter @:buyer or #:seller
         let last_sym = token.charAt(token.length - 1);
         console.log("\nlast_digit is ", last_sym);
         let a = token.slice(0, -1);
@@ -29,7 +29,7 @@ exports.VerifyAccount = catchAsyncError(async (req, res, next) => {
             user = await Seller.find({ verifyToken: a });
             console.log("Seller : ", user[0]);
         }
-        //if there is no such patient or Doctor
+        //if there is no such buyer or seller
         if (!user[0]) {
             throw new AuthenticationError("No such account exists...");
         }

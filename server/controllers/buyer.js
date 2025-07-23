@@ -20,7 +20,7 @@ exports.RegisterBuyer = async (req, res, next) => {
 
         let {token} = TokenGenerator();
         buyer.verifyToken = token;
-        let link = `${process.env.REACT_APP_BACKEND_URL}/verify/${token}`;
+        let link = `${process.env.REACT_APP_BACKEND_URL}/verify/${token}@`;
         console.log("\nVerification link: ", link);   
         buyer.verifyTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
        

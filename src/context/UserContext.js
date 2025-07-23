@@ -44,10 +44,11 @@ const UserProvider = ({ children }) => {
             }
 
         } catch (err) {
-            if (err.response && err.response.status === 401) {
-                setLoginStatus(false);
-                navigate("/login");
+            if (err.response.data.name === "AuthenticationError") {
+                window.localStorage.setItem("isLoggedIn", false);
+                setLogin(false);
             }
+            navigate("/login");
             return;
         }
         

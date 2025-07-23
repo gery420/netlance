@@ -14,7 +14,7 @@ const MyAccount = () => {
             navigate("/login");
         }
         console.log("Profile in MyAccount:", profile);
-    }, [isLoggedIn]);
+    }, []);
 
     return (
         <>
