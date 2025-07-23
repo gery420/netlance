@@ -119,7 +119,6 @@ exports.Login = async (req, res, next) => {
         res.cookie("s_Id", token, {
             httpOnly: true,
             expires: new Date(Date.now() + 8 * 3600000),
-            sameSite: 'none',
         });
 
         return res.status(200).json({
