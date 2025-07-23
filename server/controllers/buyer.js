@@ -18,12 +18,6 @@ exports.RegisterBuyer = async (req, res, next) => {
             country: user.country,
         });
 
-        let {token} = TokenGenerator();
-        buyer.verifyToken = token;
-        let link = `${process.env.REACT_APP_BACKEND_URL}/verify/${token}@`;
-        console.log("\nVerification link: ", link);   
-        buyer.verifyTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-       
         await buyer.save();
         return res.status(200).json({
             message: "Registered Successfully",
@@ -34,4 +28,3 @@ exports.RegisterBuyer = async (req, res, next) => {
         return next(error);
     }
 }
-

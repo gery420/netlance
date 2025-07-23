@@ -4,70 +4,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
-const { AuthenticationError } = require('../utils/Errors');
-const catchAsyncError = require('../utils/catchAsyncError');
 
-exports.VerifyAccount = catchAsyncError(async (req, res, next) => {
-
-    try {
-        //getting the token
-        console.log("\nVerification controller called");
-        console.log("\ntoken ", req.params);
-        let token = req.params.token;
-        console.log("\nToken in verification is", token);
-        //if last letter @:buyer or #:seller
-        let last_sym = token.charAt(token.length - 1);
-        console.log("\nlast_digit is ", last_sym);
-        let a = token.slice(0, -1);
-        console.log("\nA in verification is", a);
-        let user;
-        if (last_sym === "@") {
-            user = await Buyer.find({ verifyToken: a });
-            console.log("\nBuyer : ", user[0]);
-        }
-        else {
-            user = await Seller.find({ verifyToken: a });
-            console.log("Seller : ", user[0]);
-        }
-        //if there is no such buyer or seller
-        if (!user[0]) {
-            throw new AuthenticationError("No such account exists...");
-        }
-        console.log("Date : ", Date.now());
-        console.log("user : ", new Date(user[0].verifyTokenExpiry).getTime());
-        //if the token is expired then delete the record
-        if (new Date(user[0].verifyTokenExpiry).getTime() < Date.now()) {
-            if (last_sym === "@") {
-                await Buyer.findByIdAndDelete(user[0].id);
-            } else {
-                await Seller.findByIdAndDelete(user[0].id);
-            }
-            throw new AuthenticationError(
-                "invalid/expired url... please register again"
-            );
-        }
-
-        console.log("user .... : ", user[0]);
-
-        if (last_sym === "@") {
-            //updating the buyer
-            await Buyer.findByIdAndUpdate(user[0]._id, {
-                verifyToken: null,
-                verifyTokenExpiry: null,
-            });
-        } else {
-            //updating the seller
-            await Seller.findByIdAndUpdate(user[0]._id, {
-                verifyToken: null,
-                verifyTokenExpiry:null,
-            });
-        }
-    }
-    
-    catch (error) {
-        return next(error);
-    }
-});
 
 const isPasswordMatch = async(password, ogpassword) => {
     return await bcrypt.compare(password, ogpassword);
@@ -124,10 +61,6 @@ exports.Login = async (req, res, next) => {
         return res.status(200).json({
             message: "Login successful",
             success: true,
-            user: {
-                username: user.username,
-                type: req.body.type,
-            },
             token: token,
         });
 

@@ -34,14 +34,6 @@ const sellerSchema = new Schema({
         type: String,
         required: false,
     },
-    verifyToken: {
-        type: String,
-        default: null,
-    },
-    verifyTokenExpiry: {
-        type: Date,
-        default: null,
-    },
     type: {
         type: String,
         default: "seller",
