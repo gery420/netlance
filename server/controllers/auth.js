@@ -116,6 +116,7 @@ exports.Login = async (req, res, next) => {
                 username: user.username,
                 type: req.body.type,
             },
+            token: token,
         });
 
     }
