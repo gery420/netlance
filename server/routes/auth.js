@@ -6,7 +6,7 @@ const {
 } = require("../controllers/auth");
 
 router.get("/verifyAccount/:token", VerifyAccount);
-router.post("/loginUser", Login);
+router.post("/loginUser",Auth, Login);
 router.get("/logoutUser",  Logout);
 
 module.exports = router;
