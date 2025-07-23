@@ -1,6 +1,6 @@
 
 import RightSignUp from "../components/Signup/RightSignUp.jsx";
-import {LeftSignUp} from "../components/Signup/LeftSignUp.jsx";
+import LeftSignUp from "../components/Signup/LeftSignUp.jsx";
 
 const SignUp = () => {
     return (

@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import swal from "sweetalert2";
 import { UserContext } from "../../context/UserContext";
 
-export const LeftSignUp = () => {
+const LeftSignUp = () => {
 
     const navigate = useNavigate();
     let [data, setData] = useState({
@@ -145,3 +145,5 @@ export const LeftSignUp = () => {
         </div>
     );
 }
+
+export default LeftSignUp;
