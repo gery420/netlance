@@ -24,7 +24,6 @@ app.use(
 
 app.use("/auth", require("./routes/auth"));
 app.use("/buyer", require("./routes/buyer"));
-app.use("/seller", require("./routes/seller"));
 app.use("/common", require("./routes/common"));
 
 module.exports = app;

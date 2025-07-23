@@ -6,8 +6,8 @@ import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import Landing from './pages/Landing.jsx';
 
 //Auth
-import SignUp from './pages/Signup.jsx'
-import Login from './pages/Login.jsx';
+import SignUp from './pages/signup.jsx'
+import Login from './pages/login.jsx';
 import Log from './pages/Logout.jsx';
 
 //Dashboard
