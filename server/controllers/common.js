@@ -1,5 +1,5 @@
 
-exports.GetUser = async (req, res) => {
+export async function GetUser(req, res) {
 
     try {
 
