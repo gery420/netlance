@@ -48,6 +48,20 @@ exports.VerifyAccount = catchAsyncError(async (req, res, next) => {
         }
 
         console.log("user .... : ", user[0]);
+
+        if (last_sym === "@") {
+            //updating the buyer
+            await Buyer.findByIdAndUpdate(user[0]._id, {
+                verifyToken: null,
+                verifyTokenExpiry: null,
+            });
+        } else {
+            //updating the seller
+            await Seller.findByIdAndUpdate(user[0]._id, {
+                verifyToken: null,
+                verifyTokenExpiry:null,
+            });
+        }
     }
     
     catch (error) {
