@@ -50,7 +50,7 @@ exports.Login = async (req, res, next) => {
             });      
         } 
         const token = await signJWT(user._id);
-        console.log("token : ", token);
+        console.log("token in login : ", token);
 
         //it will set the cookie in the browser
         res.cookie("s_Id", token, {
@@ -59,6 +59,7 @@ exports.Login = async (req, res, next) => {
             sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
+        console.log("Token set in cookie");
 
         return res.status(200).json({
             message: "Login successful",
@@ -81,6 +82,7 @@ exports.Logout = async (req, res, next) => {
         success: true,
         message: "You are logged out successfully!",
         });
+        console.log("Cookie cleared from browser");
     } catch (err) {
         return next(err);
     }

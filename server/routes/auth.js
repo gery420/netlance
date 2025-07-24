@@ -6,6 +6,6 @@ const {
 } = require("../controllers/auth");
 
 router.post("/loginUser", Login);
-router.get("/logoutUser",  Logout);
+router.get("/logoutUser",Auth,  Logout);
 
 module.exports = router;

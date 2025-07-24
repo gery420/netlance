@@ -37,6 +37,7 @@ const UserProvider = ({ children }) => {
         try {
             
             if (isLoggedIn){
+                console.log("User Context is working fine");
                 let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/common/profile`, {
                     withCredentials: true,});
                 console.log("Profile response:", resp.data);
@@ -44,6 +45,7 @@ const UserProvider = ({ children }) => {
             }
 
         } catch (err) {
+            console.log("User Context problem")
             if (err.response.data.name === "AuthenticationError") {
                 window.localStorage.setItem("isLoggedIn", false);
                 setLogin(false);

@@ -9,10 +9,12 @@ require("dotenv").config();
 const Auth = async (req, _res, next) => {
   try {
     let token = req.cookies.s_Id;
+    console.log("Token in auth middleware:", token);
     if (!token) {
         throw new AuthenticationError("Please login!");
     }
     const decoder = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    console.log("Decoded token:", decoder.id);
     let user = await Buyer.findById(decoder.id);
     if (!user) {
         user = await Seller.findById(decoder.id);
