@@ -120,7 +120,7 @@ const LeftLogin = () => {
                         </div>
                         <br />
 
-                        <button onClick={submitLogin} className="w-[20%] h-[8%] border-solid border-2 border-[var(--black)] hover:bg-[var(--purple)] rounded-2xl" type="submit"> {load? "Wait..": "Login"}</button>
+                        <button onClick={submitLogin} disabled={load} className={`w-[20%] h-[8%] border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit"> {load? "Wait..": "Login"}</button>
                     </div>
                     <div className="w-[100%] bottom-0 mb-4 absolute flex items-center justify-center">
                         <h1>Don't have an account? <Link to="/signup" className="text-[var(--purple)] underline">Sign up</Link></h1>
