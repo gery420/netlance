@@ -60,6 +60,8 @@ exports.Login = async (req, res, next) => {
             sameSite: "none", // Set to 'none' for cross-site cookies
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
+        console.log("Cookie header about to be sent:", res.getHeaders()["set-cookie"]);
+
 
         console.log("Token set in cookie");
 

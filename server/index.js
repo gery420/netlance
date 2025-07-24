@@ -15,14 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
 cors({
 	origin: ["https://netlance.vercel.app", "http://localhost:3000"],
-	allowedHeaders: [
-		"X-Requested-With",
-		"Authorization",
-		"Content-Type",	
-		"Cookie",
-	],
 	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-	exposedHeaders: [ "Set-Cookie"],
 	credentials: true,
 })
 );
