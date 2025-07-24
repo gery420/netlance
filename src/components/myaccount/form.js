@@ -9,7 +9,6 @@ const Form = ({profile}) => {
         console.log("Profile data:", profile);
     }, [isLoggedIn]);
 
-
     return (
         <>
 
@@ -30,6 +29,10 @@ const Form = ({profile}) => {
             </div>
 
             <div>
+                Seller Account? : {profile.type === "seller" ? "Yes" : "No"}
+            </div>
+
+            <div>
                 <Link to="/logout">LOGOUT</Link>
             </div>
 
@@ -37,7 +40,6 @@ const Form = ({profile}) => {
         
         </>
     )
-
 
 }
 

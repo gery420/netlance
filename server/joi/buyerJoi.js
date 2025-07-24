@@ -12,6 +12,7 @@ exports.RegisterBuyerJoi = async (body)=>{
         email : joi.string().required(),
         phonenumber: joi.string().length(10).pattern(/^[0-9]+$/).required(),
         country: joi.string().required(), 
+		type: joi.string().valid('buyer', 'seller').required()
    });
    try{
 		return await schema.validateAsync(body);

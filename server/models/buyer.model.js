@@ -37,6 +37,10 @@ const buyerSchema = new Schema({
         type: String,
         default: "buyer",
     },
+    isSeller: {
+        type: Boolean,
+        default: false,
+    }
 },
 {
     timestamps: true,

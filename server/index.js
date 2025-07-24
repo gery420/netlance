@@ -4,7 +4,6 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
-const { func } = require("joi");
 
 app.use(cookieParser());
 app.use(helmet());
@@ -22,6 +21,7 @@ cors({
 
 app.use("/auth", require("./routes/auth"));
 app.use("/buyer", require("./routes/buyer"));
+app.use("/seller", require("./routes/seller"));
 app.use("/common", require("./routes/common"));
 
 module.exports = app;

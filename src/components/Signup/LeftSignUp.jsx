@@ -14,6 +14,7 @@ const LeftSignUp = () => {
         email: "",
         phonenumber: "",
         country: "",
+        type:"",
     })
 
     const [load, setload] = useState(false);
@@ -39,11 +40,44 @@ const LeftSignUp = () => {
                 });
                 return;
             }
-            if (data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "") {
+            if (data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "" || data.type === "") {
                 swal.fire({
                     title: "Incomplete Form",
                     text: "Complete all fields!",
                     icon: "error",
+                });
+                return;
+            }
+
+            if (data.type === "") {
+                swal.fire({
+                    title: "Error",
+                    text: "Please select a user type!",
+                    icon: "error",
+                });
+                return;
+            }
+
+            if (data.username.length < 6 || data.username.length > 25) {
+                swal.fire({ 
+                    title: "Error",
+                    text: "Username must be between 6 and 25 characters long!",
+                    icon: "error",
+                });
+                setData((prevState) => {
+                    return { ...prevState, username: "" };
+                });
+                return;
+            }
+
+            if (data.phonenumber.length < 10) {
+                swal.fire({
+                    title: "Error",
+                    text: "Phone number must be at least 10 digits long!",
+                    icon: "error",
+                });
+                setData((prevState) => {
+                    return { ...prevState, phonenumber: "" };   
                 });
                 return;
             }
@@ -54,30 +88,55 @@ const LeftSignUp = () => {
                 password: data.password,
                 email: data.email,
                 phonenumber: data.phonenumber,
-                country: data.country
+                country: data.country,
+                type: data.type
             }
 
             setload(true);
 
-            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData);
-            console.log("Response from server:", res);
+            if (data.type === "buyer") {
 
-            setload(false);
-            setData({
-                username: "",
-                password: "",
-                confirmPassword: "",
-                email: "",
-                phonenumber: "",
-                country: ""
-            });
-            if (res.data.success) {
-                swal.fire({
-                    title: "Registration Successful",
-                    text: res.data.message,
-                    icon: "success",
-                })
-                navigate("/login");
+                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData);
+                console.log("Response from server:", res);
+
+                setload(false);
+                setData({
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                    email: "",
+                    phonenumber: "",
+                    country: ""
+                });
+                if (res.data.success) {
+                    swal.fire({
+                        title: "Registration Successful",
+                        text: res.data.message,
+                        icon: "success",
+                    })
+                    navigate("/login");
+                }
+            } else if (data.type === "seller") {
+                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/seller/registerSeller`, postData);
+                console.log("Response from server:", res);
+
+                setload(false);
+                setData({
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                    email: "",
+                    phonenumber: "",
+                    country: ""
+                });
+                if (res.data.success) {
+                    swal.fire({
+                        title: "Registration Successful",
+                        text: res.data.message,
+                        icon: "success",
+                    })
+                    navigate("/login");
+                }
             }
             
         } catch (error) {
@@ -101,7 +160,7 @@ const LeftSignUp = () => {
     return (
         <div>
             <div className="relative w-[50dvw] max-sm:h-[50vh] h-[100dvh] bg-[var(--white)] flex items-center justify-center">
-                <div className="w-[70%] relative h-[85%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
+                <div className="w-[70%] relative h-[90%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
                     <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
                         <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
                     </div>
@@ -136,7 +195,18 @@ const LeftSignUp = () => {
                             <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-2 w-[100%] h-[50%]  p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
-                        <div className="flex justify-center items-center w-[100%]">
+                        <div className="flex flex-row justify-around items-center w-[100%]">
+                            <label htmlFor="type">
+                            Seller
+                                <input type="radio" name="type" value="seller" checked={data.type === "seller" ? true : false} onChange={updateInfo} className="ml-4"  />
+                            </label>
+                            
+                            <label htmlFor="type">
+                            Buyer
+                                <input type="radio" name="type" checked={data.type === "buyer" ? true : false} value="buyer" onChange={updateInfo} className=" ml-4" />
+                            </label>
+                        </div>
+                        <div className="flex justify-center items-center mt-4 w-[100%]">
                             <button onClick={submit} className="w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] hover:bg-[var(--purple)] rounded-2xl" disabled={load? true : false} type="submit">Sign Up</button>  
                         </div>
                     </div>

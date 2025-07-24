@@ -2,7 +2,6 @@ const Buyer = require('../models/buyer.model');
 require('dotenv').config();
 const {RegisterBuyerJoi} = require('../joi/buyerJoi');
 const bcrypt = require('bcrypt');
-const TokenGenerator = require('../utils/TokenGenerator');
 
 exports.RegisterBuyer = async (req, res, next) => {
     try {

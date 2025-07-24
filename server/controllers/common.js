@@ -14,7 +14,8 @@ exports.GetUser = async (req, res) => {
                 phonenumber: user.phonenumber,
                 country: user.country,
                 desc: user.desc,
-                profilePicture: user.profilePicture
+                profilePicture: user.profilePicture,
+                type: user.type,
             }
         } else {
             newUser = {
@@ -23,7 +24,8 @@ exports.GetUser = async (req, res) => {
                 phonenumber: user.phonenumber,
                 country: user.country,
                 desc: user.desc,
-                profilePicture: user.profilePicture
+                profilePicture: user.profilePicture,
+                type: user.type,
             }
         }
 

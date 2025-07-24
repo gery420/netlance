@@ -28,7 +28,8 @@ const UserProvider = ({ children }) => {
         phonenumber: "",
         country: "",
         desc: "",
-        profilePicture: ""
+        profilePicture: "",
+        type: "",
     });
 
     const navigate = useNavigate();

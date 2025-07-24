@@ -38,6 +38,10 @@ const sellerSchema = new Schema({
         type: String,
         default: "seller",
     },
+    isSeller: {
+        type: Boolean,
+        default: true,
+    },
 
 },
 {

@@ -2,7 +2,6 @@ const Buyer = require('../models/buyer.model');
 const Seller = require('../models/seller.model');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const { maxHeaderSize } = require('http');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
@@ -61,7 +60,6 @@ exports.Login = async (req, res, next) => {
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
         console.log("Cookie header about to be sent:", res.getHeaders()["set-cookie"]);
-
 
         console.log("Token set in cookie");
 
