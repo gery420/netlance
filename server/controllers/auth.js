@@ -55,12 +55,7 @@ exports.Login = async (req, res, next) => {
 
         //it will set the cookie in the browser
         res.cookie("s_Id", token, {
-            path: "/",
             httpOnly: true,
-            sameSite: "none",
-            secure: true, // Set to true in production
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-            domain: `${process.env.REACT_APP_FRONTEND_URL}`
         });
 
         return res.status(200).json({

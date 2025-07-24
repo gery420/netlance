@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(
 	session({
-		
 		resave: false,
 		saveUninitialized: false,
 		secret: process.env.SESSION_SECRET,
@@ -23,6 +22,7 @@ app.use(
 			sameSite: "none",
 			secure: true, // Set to true in production
 			maxAge: 24 * 60 * 60 * 1000, // 1 day
+			domain: `${process.env.REACT_APP_FRONTEND_URL}`,
 		},
 	})
 )
