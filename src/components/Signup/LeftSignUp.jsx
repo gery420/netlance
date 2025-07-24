@@ -207,7 +207,7 @@ const LeftSignUp = () => {
                             </label>
                         </div>
                         <div className="flex justify-center items-center mt-4 w-[100%]">
-                            <button onClick={submit} className="w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] hover:bg-[var(--purple)] rounded-2xl" disabled={load? true : false} type="submit">Sign Up</button>  
+                            <button onClick={submit} disabled={load} className={`w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Registering..": "Sign In" }</button>  
                         </div>
                     </div>
                 </div>
