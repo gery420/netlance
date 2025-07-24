@@ -15,6 +15,7 @@ exports.RegisterSeller = async (req, res, next) => {
             email: user.email,
             phonenumber: user.phonenumber,
             country: user.country,
+            type: user.type,
         });
 
         await seller.save();

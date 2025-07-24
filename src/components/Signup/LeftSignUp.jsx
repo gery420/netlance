@@ -106,7 +106,8 @@ const LeftSignUp = () => {
                     confirmPassword: "",
                     email: "",
                     phonenumber: "",
-                    country: ""
+                    country: "",
+                    type: ""
                 });
                 if (res.data.success) {
                     swal.fire({
@@ -127,7 +128,8 @@ const LeftSignUp = () => {
                     confirmPassword: "",
                     email: "",
                     phonenumber: "",
-                    country: ""
+                    country: "",
+                    type: ""
                 });
                 if (res.data.success) {
                     swal.fire({
