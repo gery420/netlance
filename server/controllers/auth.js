@@ -4,7 +4,6 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
-const { path } = require('..');
 
 
 const isPasswordMatch = async(password, ogpassword) => {
