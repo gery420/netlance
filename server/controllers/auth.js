@@ -2,6 +2,7 @@ const Buyer = require('../models/buyer.model');
 const Seller = require('../models/seller.model');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const { maxHeaderSize } = require('http');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
@@ -56,9 +57,10 @@ exports.Login = async (req, res, next) => {
         res.cookie("s_Id", token, {
             httpOnly: true,
             secure: true, // Set to true in production
-            sameSite: "none",
+            sameSite: "none", // Set to 'none' for cross-site cookies
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
+
         console.log("Token set in cookie");
 
         return res.status(200).json({

@@ -43,7 +43,7 @@ const UserProvider = ({ children }) => {
                 console.log("Profile response:", resp.data);
                 setProfile(resp.data.data.newUser);
             }
-
+        
         } catch (err) {
             console.log("User Context problem")
             if (err.response.data.name === "AuthenticationError") {

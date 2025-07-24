@@ -4,36 +4,25 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
-const session = require("express-session");
+const { func } = require("joi");
 
 app.use(cookieParser());
 app.use(helmet());
 
-app.set("trust proxy", 1); // trust first proxy
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(
 cors({
-	allowedOrigins: ["https://netlance.vercel.app", "http://localhost:3000","https://netlance-dkay.vercel.app/"],
-	AccessControlAllowOrigin: true,
+	origin: ["https://netlance.vercel.app", "http://localhost:3000"],
 	allowedHeaders: [
-		"Content-Length",
 		"X-Requested-With",
 		"Authorization",
 		"Content-Type",	
 		"Cookie",
-		"Set-Cookie",
-		"Access-Control-Allow-Origin",
-		"Access-Control-Allow-Credentials",
-		"Access-Control-Allow-Headers",
-		"Access-Control-Allow-Methods",
-		"Access-Control-Expose-Headers",
 	],
-	allowedMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-	origin: ["https://netlance.vercel.app", "http://localhost:3000", "https://netlance-dkay.vercel.app/"],
-	exposedHeaders: ["Content-Length", "X-Requested-With", "Authorization", "Content-Type", "Cookie", "Set-Cookie", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "Access-Control-Expose-Headers"],
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	exposedHeaders: [ "Set-Cookie"],
 	credentials: true,
 })
 );

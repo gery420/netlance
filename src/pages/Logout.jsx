@@ -7,8 +7,7 @@ import swal from "sweetalert2";
 const Log = () => {
     const navigate = useNavigate();
 
-    const { isLoggedIn, setLoginStatus } = useContext(UserContext);
-
+    const { isLoggedIn, setLoginStatus, profile } = useContext(UserContext);
     useEffect(() => {
         if (!isLoggedIn) {
             navigate("/login");
