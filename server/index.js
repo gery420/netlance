@@ -14,20 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(
-	session({
-		resave: false,
-		saveUninitialized: false,
-		secret: process.env.SESSION_SECRET,
-		cookie: {
-			sameSite: "none",
-			secure: true, // Set to true in production
-			maxAge: 24 * 60 * 60 * 1000, // 1 day
-			domain: `${process.env.REACT_APP_FRONTEND_URL}`,
-		},
-	})
-)
-
-app.use(
 cors({
 	allowedOrigins: ["https://netlance.vercel.app", "http://localhost:3000","https://netlance-dkay.vercel.app/"],
 	AccessControlAllowOrigin: true,
