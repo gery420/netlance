@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import {UserContext} from "../context/UserContext";
 import Form from "../components/myaccount/form";
-import { useNavigate } from "react-router";
+import { useNavigate} from "react-router";
 import Navbar from "../components/Home/Navbar"
 
 const MyAccount = () => {
