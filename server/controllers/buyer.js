@@ -10,6 +10,7 @@ exports.RegisterBuyer = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(user.password, salt);
         let buyer = new Buyer({
+            name: user.name,
             username: user.username,
             password: hashedPassword,
             email: user.email,

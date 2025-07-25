@@ -23,6 +23,7 @@ const UserProvider = ({ children }) => {
     const [isLoggedIn, setLogin] = useState(getLoginStatus());
 
     const [profile, setProfile] = useState({
+        name: "",
         username: "",
         email: "",
         phonenumber: "",

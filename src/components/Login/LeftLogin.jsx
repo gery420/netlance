@@ -11,7 +11,7 @@ const LeftLogin = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (isLoggedIn) {
-            navigate("/myAccount");
+            navigate("/home");
         }
     }, []);
 
@@ -65,7 +65,7 @@ const LeftLogin = () => {
                     icon: "success",
                 });
                 console.log("Login response:", res.data);
-                navigate("/myAccount");
+                navigate("/home");
             }
             setload(false);
 
@@ -96,7 +96,7 @@ const LeftLogin = () => {
                     <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
                         <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
                     </div>
-                    <div className="flex flex-col mt-10 size-full items-center justify-center" >
+                    <div className="flex flex-col size-full items-center justify-center" >
                         <label htmlFor="userName" >
                         Username:
                             <input type="text" name="username" placeholder="Username" required onChange={updateLoginInfo} className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
@@ -106,8 +106,12 @@ const LeftLogin = () => {
                         Password:
                             <input type="password" name="password" autoComplete="current-password" placeholder="Password" required onChange={updateLoginInfo} className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
-                        <br />
-                        <div className="flex flex-row justify-around items-center w-[30%]">
+
+                        <div className="w-[100%] flex items-start justify-start text-[var(--purple)] ml-20">
+                            <Link to="/forgotPassword">Forgot Password?</Link>
+                        </div>
+
+                        <div className="flex flex-row justify-around items-center mt-4 w-[30%]">
                             <label htmlFor="type">
                             Seller
                                 <input type="radio" name="type" value="seller" checked={data.type === "seller" ? true : false} onChange={updateLoginInfo} className="ml-4"  />

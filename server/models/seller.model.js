@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const sellerSchema = new Schema({
+    name: {
+        type: String,
+        required: [true, 'Name is required'],
+    },
     username: {
         type: String,
         required: [true, 'Username is required'],

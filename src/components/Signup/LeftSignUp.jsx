@@ -8,6 +8,7 @@ const LeftSignUp = () => {
 
     const navigate = useNavigate();
     let [data, setData] = useState({
+        name: "",
         username: "",
         password: "",
         confirmPassword: "",
@@ -40,7 +41,7 @@ const LeftSignUp = () => {
                 });
                 return;
             }
-            if (data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "" || data.type === "") {
+            if (data.name === "" || data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "" || data.type === "") {
                 swal.fire({
                     title: "Incomplete Form",
                     text: "Complete all fields!",
@@ -84,6 +85,7 @@ const LeftSignUp = () => {
 
             event.preventDefault();
             let postData = {
+                name: data.name,
                 username: data.username,
                 password: data.password,
                 email: data.email,
@@ -101,6 +103,7 @@ const LeftSignUp = () => {
 
                 setload(false);
                 setData({
+                    name: "",
                     username: "",
                     password: "",
                     confirmPassword: "",
@@ -123,6 +126,7 @@ const LeftSignUp = () => {
 
                 setload(false);
                 setData({
+                    name: "",
                     username: "",
                     password: "",
                     confirmPassword: "",
@@ -167,34 +171,39 @@ const LeftSignUp = () => {
                         <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
                     </div>
                     <div className="flex flex-col relative items-start justify-start w-[70%] h-[80%]" >
+                        <label htmlFor="name" className="w-[100%]">
+                        Full Name:
+                            <input type="text" name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                        </label>
+                        <br />
                         <label htmlFor="userName" className="w-[100%]">
                         Username:
-                            <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
                         <label htmlFor="password" className="w-[100%]">
                         Password:
-                            <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-2 w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
                         <label htmlFor="password" className="w-[100%]">
                         Confirm Password:
-                            <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
                         <label htmlFor="email" className="w-[100%]">
                         Email:
-                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl"/>
+                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
                         </label>
                         <br />
                         <label htmlFor="phonenumber" className="w-[100%]">
                         Phone Number:
-                            <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-2 w-[100%]  h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
                         <label htmlFor="country" className="w-[100%]">
                         Country:
-                            <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-2 w-[100%] h-[50%]  p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%]  p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
                         <br />
                         <div className="flex flex-row justify-around items-center w-[100%]">
@@ -208,8 +217,8 @@ const LeftSignUp = () => {
                                 <input type="radio" name="type" checked={data.type === "buyer" ? true : false} value="buyer" onChange={updateInfo} className=" ml-4" />
                             </label>
                         </div>
-                        <div className="flex justify-center items-center mt-4 w-[100%]">
-                            <button onClick={submit} disabled={load} className={`w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Registering..": "Sign In" }</button>  
+                        <div className="flex justify-center items-center mt-2 w-[100%]">
+                            <button onClick={submit} disabled={load} className={`w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Registering..": "Sign Up" }</button>  
                         </div>
                     </div>
                 </div>

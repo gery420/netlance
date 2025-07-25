@@ -4,6 +4,9 @@ import {Route, BrowserRouter, Routes} from 'react-router-dom';
 
 //Common
 import Landing from './pages/Landing.jsx';
+import Home from './pages/Home.jsx';
+
+import ForgotPasswordWithOTP from './pages/ForgotPassword.jsx';
 
 //Auth
 import SignUp from './pages/signup.jsx'
@@ -27,6 +30,8 @@ function App() {
 
             <Route exact path="/" element={<Landing />} />
 
+            <Route exact path="/home" element={<Home />} />
+
             <Route exact path="/signup" element={<SignUp />} />
 
             <Route exact path="/login" element={<Login />} />
@@ -34,6 +39,8 @@ function App() {
             <Route exact path="/myAccount" element={<MyAccount />} />
 
             <Route exact path="/logout" element={<Log />} />
+
+            <Route exact path="/forgotPassword" element={<ForgotPasswordWithOTP />} />
 
           </Routes>
 

@@ -7,6 +7,7 @@ const {ClientError} = require('./../utils/Errors');
 
 exports.RegisterBuyerJoi = async (body)=>{
     const schema = joi.object({
+		name: joi.string().min(3).max(50).required(),
         username: joi.string().min(6).max(25).required(),
         password : joi.string().min(8).max(15).regex(/^[a-zA-Z]+[a-zA-Z\d]*[@$#]+[a-zA-Z@$#\d]*\d+$/).required(),
         email : joi.string().required(),
