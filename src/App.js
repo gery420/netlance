@@ -10,7 +10,7 @@ import ForgotPasswordWithOTP from './pages/ForgotPassword.jsx';
 
 //Auth
 import SignUp from './pages/signup.jsx'
-import LoginUser from './pages/Login.jsx';
+import LoginUser from './pages/login.jsx';
 
 //Dashboard
 import MyAccount from './pages/MyAccount.jsx';
