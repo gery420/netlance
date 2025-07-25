@@ -10,8 +10,7 @@ import ForgotPasswordWithOTP from './pages/ForgotPassword.jsx';
 
 //Auth
 import SignUp from './pages/signup.jsx'
-import Login from './pages/login.jsx';
-import Log from './pages/Logout.jsx';
+import Login from './pages/Login.jsx';
 
 //Dashboard
 import MyAccount from './pages/MyAccount.jsx';
@@ -37,8 +36,6 @@ function App() {
             <Route exact path="/login" element={<Login />} />
 
             <Route exact path="/myAccount" element={<MyAccount />} />
-
-            <Route exact path="/logout" element={<Log />} />
 
             <Route exact path="/forgotPassword" element={<ForgotPasswordWithOTP />} />
 
