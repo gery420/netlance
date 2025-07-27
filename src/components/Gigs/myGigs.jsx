@@ -10,14 +10,18 @@ const MyGigs = () => {
 
     const [gigs, setGigs] = useState([]);
     const { isLoggedIn } = useContext(UserContext);
+    const [ load, setLoad ] = useState(true);
     const navigate = useNavigate();
     const fetchGigs = async () => {
             try {
+                setLoad(true);
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/`, {
                     withCredentials: true,
                 });
                 setGigs(response.data.gigs);
+                setLoad(false);
             } catch (error) {
+                setLoad(false);
                 console.error("Error fetching gigs:", error);
             }
         };
@@ -52,6 +56,10 @@ const MyGigs = () => {
             });
         }
     };
+
+    if (load) {
+        return <div className="w-full h-screen flex items-center justify-center">Getting Your Gigs...</div>;
+    }
 
     return (
         <div className=" p-6 flex flex-col items-center justify-center">

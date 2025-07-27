@@ -6,14 +6,18 @@ import { Link } from 'react-router-dom';
 const Explore = () => {
 
     const [gigs, setGigs] = useState([]);
+    const [load, setLoad] = useState(true);
 
     const getAllGigs = async () => {
         try {
+            setLoad(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/all`, {
                 withCredentials: true,
             });
             setGigs(response.data.gigs);
+            setLoad(false);
         } catch (error) {
+            setLoad(false);
             console.error("Error fetching all gigs:", error);
             return [];
         }
@@ -21,6 +25,10 @@ const Explore = () => {
     useEffect(() => {
         getAllGigs();
     }, []);
+
+    if (load) {
+        return <div className="w-full h-screen flex items-center justify-center">Getting Gigs for You...</div>;
+    }
 
     return (
         <div>
