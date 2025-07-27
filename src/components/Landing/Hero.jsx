@@ -22,7 +22,7 @@ const Section1 = () => {
                 is just a <span className="italic font-thin">click</span> away</h1>
             </div>    
             <div className="flex justify-center items-center mt-10 relative ">
-                <Link to='/login'>
+                <Link to='/explore'>
                     <button className="bg-[var(--purple)] text-white py-2 px-4 rounded">Get Started</button>
                 </Link>
             </div>        

@@ -15,8 +15,15 @@ import LoginUser from './pages/login.jsx';
 //Dashboard
 import MyAccount from './pages/MyAccount.jsx';
 
+// Gigs
+import CreateGig from './components/Gigs/createGig.jsx'
+import Gig from './pages/Gig.jsx'
+import SingleGig from './components/Gigs/singleGig.jsx';
+
 //User Context
 import UserProvider from './context/UserContext.js';
+
+import Explore from './pages/Explore.jsx';
 
 function App() {
   return (
@@ -38,6 +45,14 @@ function App() {
             <Route exact path="/myAccount" element={<MyAccount />} />
 
             <Route exact path="/forgotPassword" element={<ForgotPasswordWithOTP />} />
+
+            <Route exact path="/createGig" element={<CreateGig />} />
+
+            <Route exact path="/gig" element={<Gig />} />
+
+            <Route exact path="/gig/:id" element={<SingleGig />} />
+
+            <Route exact path="/explore" element={<Explore />} />
 
           </Routes>
 

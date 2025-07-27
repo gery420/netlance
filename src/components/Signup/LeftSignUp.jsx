@@ -165,48 +165,54 @@ const LeftSignUp = () => {
 
     return (
         <div>
-            <div className="relative w-[50dvw] max-sm:h-[50vh] h-[100dvh] bg-[var(--white)] flex items-center justify-center">
-                <div className="w-[70%] relative h-[90%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
+            <div className="relative w-[70dvw] max-sm:h-[50vh] h-[100dvh] bg-[var(--white)] flex items-center justify-center">
+                <div className="w-[60%] relative h-[80%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
                     <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
                         <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
                     </div>
-                    <div className="flex flex-col relative items-start justify-start w-[70%] h-[80%]" >
-                        <label htmlFor="name" className="w-[100%]">
-                        Full Name:
-                            <input type="text" name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
+                    <div className="flex flex-col gap-2 relative items-center justify-center w-[70%] h-[100%]" >
+                        <div className="flex flex-row gap-4 items-center justify-evenly w-[100%]">
+                            <label htmlFor="name" className="w-[100%]">
+                            Full Name:
+                                <input type="text" name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                            <br />
+                            <label htmlFor="userName" className="w-[90%]">
+                            Username:
+                                <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                        </div>
                         <br />
-                        <label htmlFor="userName" className="w-[100%]">
-                        Username:
-                            <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
-                        <br />
-                        <label htmlFor="password" className="w-[100%]">
-                        Password:
-                            <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
-                        <br />
-                        <label htmlFor="password" className="w-[100%]">
-                        Confirm Password:
-                            <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
+                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                            <label htmlFor="password" className="w-[100%]">
+                            Password:
+                                <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                            <br />
+                            <label htmlFor="password" className="w-[100%]">
+                            Confirm Password:
+                                <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                        </div>
                         <br />
                         <label htmlFor="email" className="w-[100%]">
                         Email:
-                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
+                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
                         </label>
                         <br />
-                        <label htmlFor="phonenumber" className="w-[100%]">
-                        Phone Number:
-                            <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
+                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                            <label htmlFor="phonenumber" className="w-[100%]">
+                            Phone Number:
+                                <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                            <br />
+                            <label htmlFor="country" className="w-[100%]">
+                            Country:
+                                <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                        </div>
                         <br />
-                        <label htmlFor="country" className="w-[100%]">
-                        Country:
-                            <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%]  p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
-                        <br />
-                        <div className="flex flex-row justify-around items-center w-[100%]">
+                        <div className="flex flex-row justify-evenly items-center w-[70%] mb-10">
                             <label htmlFor="type">
                             Seller
                                 <input type="radio" name="type" value="seller" checked={data.type === "seller" ? true : false} onChange={updateInfo} className="ml-4"  />
@@ -217,8 +223,8 @@ const LeftSignUp = () => {
                                 <input type="radio" name="type" checked={data.type === "buyer" ? true : false} value="buyer" onChange={updateInfo} className=" ml-4" />
                             </label>
                         </div>
-                        <div className="flex justify-center items-center mt-2 w-[100%]">
-                            <button onClick={submit} disabled={load} className={`w-[30%] h-[100%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Registering..": "Sign Up" }</button>  
+                        <div className="flex justify-center items-center w-[100%]">
+                            <button onClick={submit} disabled={load} className={`w-[20%] h-[110%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Wait..": "Sign Up" }</button>  
                         </div>
                     </div>
                 </div>

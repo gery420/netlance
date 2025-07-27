@@ -45,7 +45,7 @@ const Form = ({profile}) => {
 
             <div className="w-full h-[20dvh] flex flex-row justify-between items-center">
                 <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Netlance Account</h1>
-                <button onClick={logout} disabled={load} className={`w-[10%] h-[30%] border-solid font-bold border-2 border-[var(--black)] mr-10 rounded-3xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit"> {load? "Wait..": "Log Out"}</button>
+                <button onClick={logout} disabled={load} className={`w-[10%] h-[30%] transition-all duration-200 ease-in-out border-solid font-bold border-2 border-[var(--black)] mr-10 rounded-3xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit"> {load? "Wait..": "Log Out"}</button>
             </div>
 
             <div className=" p-10 size-full flex flex-row gap-20 flex-wrap">
