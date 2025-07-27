@@ -20,8 +20,8 @@ exports.CreateGig = async (req, res) => {
             deliveryTime,
             revisionNumber,
             features: parsedFeatures,
-            cover: req.files.cover ? req.files.cover[0].filename : null,
-            images: req.files.images ? req.files.images.map(img => img.filename) : [],
+            cover: req.files.cover?.[0]?.path,
+            images: req.files.images?.map((img) => img.path) || [],
         });
 
         await newGig.save();

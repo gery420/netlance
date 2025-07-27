@@ -30,7 +30,7 @@ const Explore = () => {
                         {gigs.map((gig) => (
                             <div key={gig._id} className="bg-white p-4 rounded-xl w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
                                 <img
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${gig.cover}`}
+                                    src={`${gig.cover}`}
                                     alt={gig.title}
                                     className="w-full h-36 object-cover rounded-lg mb-4"
                                 />

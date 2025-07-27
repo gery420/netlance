@@ -4,7 +4,8 @@ const {Schema} = mongoose;
 
 const gigSchema = new Schema({
     sellerID : {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Seller',
         required: true,
     },
     title: {

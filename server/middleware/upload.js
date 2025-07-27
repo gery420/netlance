@@ -1,17 +1,24 @@
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../utils/Cloudinary");
+console.log("✅ cloudinary uploader:", typeof cloudinary?.uploader?.upload_stream);
 
-// File storage config
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // make sure this folder exists
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: async (req, file) => {
+        return {
+            folder: "gigImages",
+            allowed_formats: ["jpg", "jpeg", "png"],
+            transformation: [{ width: 1000, height: 1000, crop: "limit" }],
+        };
     },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
 });
 
-const upload = multer({ storage });
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+});
 
 module.exports = upload;
+

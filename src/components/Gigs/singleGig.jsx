@@ -46,7 +46,7 @@ const SingleGig = () => {
                     </div>
                 </div>
                 <div className="flex flex-col mt-10">
-                    <img src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${gig.cover}`} alt={gig.title} className="w-[500px] h-[500px]" />
+                    <img src={`${gig.cover}`} alt={gig.title} className="w-[500px] h-[500px]" />
                 </div>
                 <div className="mt-10">
                     <p className="font-bold">About this gig: 

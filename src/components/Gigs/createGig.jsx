@@ -225,7 +225,7 @@ const CreateGig = () => {
                             </label>
                         </div>
 
-                        <div className="flex flex-row gap-10 justify-center text-center items-center mt-2 w-[100%]">
+                        <div className="flex flex-row gap-10 justify-center mb-10 text-center items-center mt-2 w-[100%]">
                             <Link to="/gig" className=" text-[var(--black)] border-2 border-[var(--black)] p-3 rounded-2xl">Cancel</Link>
                             <button onClick={submit} disabled={load} className={`border-2 border-[var(--black)]  transition-all duration-200 ease-in-out
  border-solid text-black p-3 rounded-2xl  ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>{load ? "Creating..." : "Create Gig"}</button>
