@@ -13,8 +13,8 @@ const isPasswordMatch = async(password, ogpassword) => {
     return await bcrypt.compare(password, ogpassword);
 } 
 
-const signJWT = async (user_id) => {
-    return await promisify(jwt.sign)({ id: user_id }, process.env.JWT_SECRET);
+const signJWT = async (user_id, user_type) => {
+    return await promisify(jwt.sign)({ id: user_id, userType: user_type }, process.env.JWT_SECRET);
 };
 
 exports.Login = async (req, res, next) => {
@@ -52,7 +52,7 @@ exports.Login = async (req, res, next) => {
                 message: "Incorrect Credentials",
             });      
         } 
-        const token = await signJWT(user._id);
+        const token = await signJWT(user._id, user.type);
         console.log("token in login : ", token);
 
         //it will set the cookie in the browser
@@ -70,6 +70,7 @@ exports.Login = async (req, res, next) => {
             message: "Login successful",
             success: true,
             token: token,
+            userType: user.type,
         });
 
     }
