@@ -139,9 +139,9 @@ const SingleGig = () => {
                         <div className="w-[100%] relative flex flex-col items-center justify-center mt-4">
                             <button 
                                 onClick={handleBuy} 
-                                className="mt-10 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition duration-300"
+                                className={`mt-10 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"} duration-300`}
                             >
-                                Buy Now
+                                {loading ? "Processing..." : "Buy Now"}
                             </button>
                         </div>
                     ) : null}
