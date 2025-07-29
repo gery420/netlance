@@ -147,7 +147,7 @@ const SingleOrder = () => {
                                         </div>
                                     {order.status === "completed" || order.status === "cancelled" ? (
                                         <div className="mt-4 text-gray-500 italic">
-                                            Chat disabled. This order has been marked as <strong>completed</strong>.
+                                            Chat disabled. This order has been marked as <strong>{order.status}</strong>.
                                         </div>
                                         ) : (
                                         <div className="flex gap-2">
