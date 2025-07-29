@@ -31,7 +31,8 @@ const Form = ({profile}) => {
         setPhonenumber(profile.phonenumber || "");
     }, [profile]);
 
-    const logout = async () => {
+    const logout = async (e) => {
+        e.preventDefault();
         try{
             setLoad(true);
             let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/logoutUser/`, { withCredentials: true });
@@ -56,8 +57,8 @@ const Form = ({profile}) => {
         }
     }
 
-    const handleReset = async () => {
-    
+    const handleReset = async (e) => {
+        e.preventDefault();
         try {
 
             if (newPassword === "" || confirmPassword === "") {
@@ -101,8 +102,8 @@ const Form = ({profile}) => {
         }
     }
 
-    const handleSave = async () => {
-
+    const handleSave = async (e) => {
+        e.preventDefault();
         try {
             setSave(true);
             let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, {
