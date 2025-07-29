@@ -41,6 +41,19 @@ const LeftSignUp = () => {
                 });
                 return;
             }
+
+            if (data.password.length < 8) {
+                swal.fire({
+                    title: "Error",
+                    text: "Password must be at least 8 characters long!",
+                    icon: "error",
+                });
+                setData((prevState) => {
+                    return { ...prevState, password: "", confirmPassword: "" };
+                });
+                return;
+            }
+
             if (data.name === "" || data.username === "" || data.password === "" || data.email === "" || data.phonenumber === "" || data.country === "" || data.type === "") {
                 swal.fire({
                     title: "Incomplete Form",
@@ -174,41 +187,41 @@ const LeftSignUp = () => {
                         <div className="flex flex-row gap-4 items-center justify-evenly w-[100%]">
                             <label htmlFor="name" className="w-[100%]">
                             Full Name:
-                                <input type="text" name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="text" value={data.name} name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                             <br />
                             <label htmlFor="userName" className="w-[90%]">
                             Username:
-                                <input type="text" name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="text" value={data.username} name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                         </div>
                         <br />
                         <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="password" className="w-[100%]">
                             Password:
-                                <input type="password" name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="password" value={data.password} name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                             <br />
                             <label htmlFor="password" className="w-[100%]">
                             Confirm Password:
-                                <input type="password" name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="password" value={data.confirmPassword} name="confirmPassword" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%]  h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                         </div>
                         <br />
                         <label htmlFor="email" className="w-[100%]">
                         Email:
-                            <input type="email" name="email" placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
+                            <input type="email" name="email" value={data.email} placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
                         </label>
                         <br />
                         <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="phonenumber" className="w-[100%]">
                             Phone Number:
-                                <input type="text" name="phonenumber" placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="text" name="phonenumber" value={data.phonenumber} placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                             <br />
                             <label htmlFor="country" className="w-[100%]">
                             Country:
-                                <input type="text" name="country" placeholder="Country" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="text" name="country" value={data.country} placeholder="Country" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                         </div>
                         <br />

@@ -14,6 +14,10 @@ const Form = ({profile}) => {
     const navigate = useNavigate();
 
     const [load , setLoad] = useState(false);
+    const [ loading, setLoading ] = useState(false);
+
+    const [ newPassword, setNewPassword ] = useState("");
+    const [ confirmPassword, setConfirmPassword ] = useState("");
     
     const logout = async () => {
         try{
@@ -40,15 +44,62 @@ const Form = ({profile}) => {
         }
     }
 
+    const handleReset = async (e) => {
+        e.preventDefault();
+    
+        try {
+
+            if (newPassword === "" || confirmPassword === "") {
+                swal.fire({
+                    title: "Error",
+                    text: "Please fill in all fields.",
+                    icon: "error",
+                });
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                swal.fire({
+                    title: "Error",
+                    text: "Passwords do not match.",
+                    icon: "error",
+                });
+                return;
+            }
+
+            setLoading(true);
+            let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/resetPassword/`, { newPassword }, { withCredentials: true });
+            if (resp.data.success) {
+                swal.fire({
+                    title: "Success",
+                    text: resp.data.message,
+                    icon: "success",
+                });
+            }
+            setLoading(false);
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (error) {
+            console.error("Error during password reset:", error);
+            swal.fire({
+                title: "Error",
+                text: error.response ? error.response.data.message : "Password reset failed. Please try again.",
+                icon: "error",
+            });
+            setLoading(false);
+        }
+    }
+
+
     return (
-        <div className=" p-6 size-full flex flex-col gap-7 items-center justify-center">
+        <div className=" p-6 size-full flex flex-col items-center justify-center">
 
             <div className="w-full h-[20dvh] flex flex-row justify-between items-center">
                 <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Netlance Account</h1>
                 <button onClick={logout} disabled={load} className={`w-[10%] h-[30%] transition-all duration-200 ease-in-out border-solid font-bold border-2 border-[var(--black)] mr-10 rounded-3xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit"> {load? "Wait..": "Log Out"}</button>
             </div>
 
-            <div className=" p-10 size-full flex flex-row gap-20 flex-wrap">
+            <div className=" p-10 size-full flex flex-row gap-20 items-center justify-center flex-wrap">
                 <div className=" p-6 w-[20%] h-[25%] flex flex-col gap-4 items-start justify-center rounded-[1rem] shadow-[27px_27px_69px_rgb(219,215,219)]">
                     <span className="text-lg font-bold">Name </span>
                     <div className="">
@@ -91,6 +142,20 @@ const Form = ({profile}) => {
                     </div>
                 </div>
 
+                <div className=" p-6 w-[45%] h-[25%] flex flex-col gap-4 items-start justify-center rounded-[1rem] shadow-[27px_27px_69px_rgb(219,215,219)]">
+                    <span className="text-lg font-bold">Reset Password </span>
+                    <div className="flex flex-row items-start justify-start w-full">
+                        <div className="flex flex-row gap-4 items-start justify-start w-full">
+                            <label>
+                                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} name="newPassword" placeholder="New Password" className="border p-3 rounded-xl w-full" />
+                            </label>
+                            <label>
+                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} name="confirmPassword" placeholder="Confirm New Password" className="border p-3 rounded-xl w-full" />
+                            </label>
+                        </div>
+                        <button className={`bg-[var(--purple)] w-[15%] text-[var(--white)] p-3 ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"} rounded-xl transition-all duration-200 ease-in-out`} onClick={handleReset}>Reset</button>
+                    </div>
+                </div>
             </div>
         
         </div>

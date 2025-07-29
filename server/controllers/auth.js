@@ -214,3 +214,28 @@ exports.SetPassword = async (req, res, next) => {
 
 }
 
+exports.ResetPassword = async (req, res, next) => {
+    try {
+        const { newPassword } = req.body;
+        const user = await Buyer.findById(req.user.id) || await Seller.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password reset successfully",
+        });
+    } catch (error) {
+        console.log("Error occurred while resetting password");
+        return next(error);
+    }
+}
