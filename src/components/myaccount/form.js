@@ -15,6 +15,7 @@ const Form = ({profile}) => {
 
     const [load , setLoad] = useState(false);
     const [ loading, setLoading ] = useState(false);
+    const [ save , setSave ] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // ✨ NEW
 
     const [name, setName] = useState(profile.name);
@@ -105,7 +106,7 @@ const Form = ({profile}) => {
         e.preventDefault();
 
         try {
-            setLoading(true);
+            setSave(true);
             let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, {
                 name,
                 username,
@@ -123,7 +124,7 @@ const Form = ({profile}) => {
                 profile.username = username;
                 profile.phonenumber = phonenumber;
             }
-            setLoading(false);
+            setSave(false);
         } catch (error) {
             console.error("Error during profile update:", error);
             swal.fire({
@@ -131,7 +132,7 @@ const Form = ({profile}) => {
                 text: error.response ? error.response.data.message : "Profile update failed. Please try again.",
                 icon: "error",
             });
-            setLoading(false);
+            setSave(false);
         }
     }
 
@@ -142,7 +143,7 @@ const Form = ({profile}) => {
                 <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Netlance Account</h1>
                 <div className="flex w-[50%] h-[100%] flex-row gap-10 items-center justify-end">
                     {isEditing && (
-                        <button onClick={handleSave} className={`w-[20%] h-[30%] transition-all duration-200 ease-in-out border-solid font-bold border-2 border-[var(--black)] rounded-3xl hover:bg-[var(--purple)]`}>
+                        <button onClick={handleSave} disabled={save} className={`w-[20%] h-[30%] transition-all ${save ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"} duration-200 ease-in-out border-solid font-bold border-2 border-[var(--black)] rounded-3xl hover:bg-[var(--purple)]`}>
                             Save
                         </button>
                     )}
