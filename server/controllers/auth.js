@@ -239,3 +239,36 @@ exports.ResetPassword = async (req, res, next) => {
         return next(error);
     }
 }
+
+exports.UpdateProfile = async (req, res, next) => {
+    try {
+        const { name, username, phonenumber } = req.body;
+        const user = await Buyer.findById(req.user.id) || await Seller.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        user.name = name || user.name;
+        user.username = username || user.username;
+        user.phonenumber = phonenumber || user.phonenumber;
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            profile: {
+                name: user.name,
+                username: user.username,
+                phonenumber: user.phonenumber,
+            }
+        });
+    } catch (error) {
+        console.log("Error occurred while updating profile");
+        return next(error);
+    }
+}
