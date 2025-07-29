@@ -16,7 +16,7 @@ const Navbar = () => {
                             </Link>
                         </div>
                         <div className="mr-[2dvw] relative h-[100%] sm:w-[40%] lg:w-[30%] w-[70%] flex items-center text-center justify-evenly">
-                            <Link to="/order" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">Orders</Link>
+                            <Link to="/orders" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">Orders</Link>
                             <Link to="/gig" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">My Gigs</Link>
 
                             <Link to="/myAccount" className="w-[40%] lg:w-[30%] h-[40%] hover:bg-[var(--purple)] transition-all duration-200 ease-in-out border-2 border-solid rounded-xl flex items-center justify-center text-center bg-[#000011]">
@@ -32,7 +32,7 @@ const Navbar = () => {
                             </Link>
                         </div>
                         <div className="mr-[2dvw] relative h-[100%] sm:w-[40%] lg:w-[30%] w-[70%] flex items-center text-center justify-evenly">
-                            <Link to="/order" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">My Orders</Link>
+                            <Link to="/orders" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">My Orders</Link>
                             <Link to="/message" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">Messages</Link>
 
                             <Link to="/myAccount" className="w-[40%] lg:w-[30%] h-[40%] hover:bg-[var(--purple)] transition-all duration-200 ease-in-out border-2 border-solid rounded-xl flex items-center justify-center text-center bg-[#000011]">

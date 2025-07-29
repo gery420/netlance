@@ -22,6 +22,7 @@ const UserProvider = ({ children }) => {
 
     const [isLoggedIn, setLogin] = useState(getLoginStatus());
     const [ userType, setUserType ] = useState(null); // Default user type
+    const [ user , setUser ] = useState(null);
 
     const [profile, setProfile] = useState({
         name: "",
@@ -46,6 +47,7 @@ const UserProvider = ({ children }) => {
                 console.log("Profile response:", resp.data);
                 setProfile(resp.data.data.newUser);
                 setUserType(resp.data.data.newUser.type);
+                setUser(resp.data.data.newUser);
             }
         
         } catch (err) {
@@ -64,7 +66,7 @@ const UserProvider = ({ children }) => {
     }, [isLoggedIn]);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, setLoginStatus, profile, userType }}>
+        <UserContext.Provider value={{ isLoggedIn, setLoginStatus, profile, user, userType }}>
             {children}
         </UserContext.Provider>
     );

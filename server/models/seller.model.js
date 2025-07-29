@@ -53,6 +53,6 @@ const sellerSchema = new Schema({
 }
 );
 
-const seller = mongoose.model("seller", sellerSchema);
+const Seller = mongoose.model("Seller", sellerSchema);
 
-module.exports = seller;
+module.exports = Seller;

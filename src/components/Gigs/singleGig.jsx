@@ -1,10 +1,17 @@
 
 import Navbar from "../common/Navbar";
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { loadStripe } from "@stripe/stripe-js";
+import { UserContext } from "../../context/UserContext";
+import swal from "sweetalert2";
 
 const SingleGig = () => {
+
+    const { isLoggedIn, userType, user } = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
     
@@ -33,47 +40,114 @@ const SingleGig = () => {
         return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
     }
 
+    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+
+
+    const handleBuy = async (req, res) => {
+
+        if (!isLoggedIn) {
+            swal.fire({
+                title: "Please Login",
+                text: "You need to be logged in to buy this gig.",
+                icon: "warning",
+                confirmButtonText: "Login",
+            });
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/order/checkoutSession`, {
+                gigId: gig._id,
+                buyerId: user._id,
+            }, {
+                withCredentials: true,
+            });
+            window.location.href = response.data.url;
+            const stripe = await stripePromise;
+            
+            const sessionId = response.data.sessionId;
+
+            const result = await stripe.redirectToCheckout({
+                sessionId: sessionId,
+            });
+
+            if (result.error) {
+                console.error(result.error.message);
+            }
+        } catch (error) {
+            swal.fire({
+                title: "Error",
+                text: "There was an error processing your payment. Please try again later.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+            console.error("Error during payment:", error);
+        }
+
+    }
+
     return (
         <div className="w-full mt-[10dvh] flex flex-col items-center justify-center">
             <Navbar />
-            <div className="w-[90dvw] p-5">
-                <div className="flex flex-col items-start justify-start">
-                    <h1 className="text-4xl font-bold">{gig.title}</h1>
-                    <h2 className="text-xl">{gig.sellerName}</h2>
-                    <div className="flex flex-row items-center">
-                        <span className="text-yellow-500">★</span>
-                        <span className="ml-1">{gig.starNumber} ({gig.totalStars} reviews)</span>
-                    </div>
-                </div>
-                <div className="flex flex-col mt-10">
-                    <img src={`${gig.cover}`} alt={gig.title} className="w-[500px] h-[500px]" />
-                </div>
-                <div className="mt-10">
-                    <p className="font-bold">About this gig: 
-                        <div className="mt-4 font-normal">
-                            {gig.desc}
+            <div className="w-[100dvw] h-[90dvh] p-10 flex flex-row items-center justify-center">
+                <div className="flex flex-col items-start justify-start w-[70%]">
+                    <div className="flex flex-col items-start justify-start">
+                        <h1 className="text-4xl font-bold">{gig.title}</h1>
+                        <h2 className="text-xl">{gig.sellerName}</h2>
+                        <div className="flex flex-row items-center">
+                            <span className="text-yellow-500">★</span>
+                            <span className="ml-1">{gig.starNumber} ({gig.totalStars} reviews)</span>
                         </div>
-                    </p>
-                </div>
-                <div className="mt-4 absolute w-[20%] flex flex-col gap-8 justify-start items-start top-[20%] right-[5%] p-4 bg-white">
-                    <div className="flex flex-row justify-between w-[100%] gap-2">
-                        <p className="font-bold text-xl">{gig.shortTitle}</p>
-                        <p>₹{gig.price}.00</p>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <p className="text-md text-gray-500">{gig.shortDesc}</p>
+                    <div className="flex flex-col mt-10">
+                        <img src={`${gig.cover}`} alt={gig.title} className="w-[500px] h-[500px]" />
                     </div>
-                    <div className="flex w-[100%] flex-row justify-between gap-2">    
-                        <p className="text-sm font-bold">⏱︎ {gig.deliveryTime} Days Delivery</p>
-                        <p className="text-sm font-bold">🗘 {gig.revisionNumber} Revisions</p>
-                    </div>
-                    <div className="flex flex-col gap-2 opacity-55 italic">
-                        {gig.features.map((feature, index) => (
-                            <p key={index}>✓ {feature}</p>
-                        ))}
+                    <div className="mt-10">
+                        <p className="font-bold">About this gig: 
+                            <div className="mt-4 font-normal">
+                                {gig.desc}
+                            </div>
+                        </p>
                     </div>
                 </div>
+                <div className="w-[30%] h-[100%] flex flex-col items-start justify-start">
+                    <div className="mt-20 w-[100%] flex flex-col gap-8 justify-center items-center p-4 bg-white">
+                        <div className="size-full flex flex-col gap-10 items-start justify-start">
 
+                            <div className="flex flex-row justify-between w-[100%] gap-2">
+                                <p className="font-bold text-xl">{gig.shortTitle}</p>
+                                <p>₹{gig.price}.00</p>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <p className="text-md text-gray-500">{gig.shortDesc}</p>
+                            </div>
+                            <div className="flex w-[100%] flex-row justify-between gap-2">    
+                                <p className="text-sm font-bold">⏱︎ {gig.deliveryTime} Days Delivery</p>
+                                <p className="text-sm font-bold">🗘 {gig.revisionNumber} Revisions</p>
+                            </div>
+                            <div className="flex flex-col gap-2 opacity-55 italic">
+                                {gig.features.map((feature, index) => (
+                                    <p key={index}>✓ {feature}</p>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {userType === "buyer" ? (
+
+                        <div className="w-[100%] relative flex flex-col items-center justify-center mt-4">
+                            <button 
+                                onClick={handleBuy} 
+                                className="mt-10 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition duration-300"
+                            >
+                                Buy Now
+                            </button>
+                        </div>
+                    ) : null}
+
+
+                </div>
             </div>
         </div>
     );

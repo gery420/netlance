@@ -51,6 +51,6 @@ const buyerSchema = new Schema({
 }
 );
 
-const buyer = mongoose.model("buyer", buyerSchema);
+const buyer = mongoose.model("Buyer", buyerSchema);
 
 module.exports = buyer;

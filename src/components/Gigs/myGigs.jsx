@@ -84,7 +84,7 @@ const MyGigs = () => {
                                 <p className="text-green-600 font-bold mt-2">₹{gig.price}</p>
                                 <p className="text-sm text-gray-400 mt-1">Delivery in {gig.deliveryTime} days</p>
                                 <div className="mt-4 flex justify-between items-center">
-                                    <Link to={`/gig/${gig._id}`} className="text-blue-500 hover:underline">View Details</Link>
+                                    <Link to={`/gig/${gig._id}`} target='_blank' className="text-blue-500 hover:underline">Public View</Link>
                                     <button onClick={() => handleDelete(gig._id)} className="text-red-500 hover:underline">Delete</button>
                                 </div>
                             </div>

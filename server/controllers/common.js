@@ -9,6 +9,7 @@ exports.GetUser = async (req, res) => {
 
         if (user.type === "buyer") {
             newUser = {
+                _id: user._id,
                 name: user.name,
                 username: user.username,
                 email: user.email,
@@ -20,6 +21,7 @@ exports.GetUser = async (req, res) => {
             }
         } else {
             newUser = {
+                _id: user._id,
                 name: user.name,
                 username: user.username,
                 email: user.email,

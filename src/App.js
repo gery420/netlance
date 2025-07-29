@@ -20,6 +20,12 @@ import CreateGig from './components/Gigs/createGig.jsx'
 import Gig from './pages/Gig.jsx'
 import SingleGig from './components/Gigs/singleGig.jsx';
 
+
+import PaymentSuccess from './pages/PaymentSucces.jsx';
+
+import Order from './components/Orders/Order.jsx';
+import SingleOrder from './components/Orders/singleOrder.jsx';
+
 //User Context
 import UserProvider from './context/UserContext.js';
 
@@ -53,6 +59,12 @@ function App() {
             <Route exact path="/gig/:id" element={<SingleGig />} />
 
             <Route exact path="/explore" element={<Explore />} />
+
+            <Route exact path="/payment-success" element={<PaymentSuccess />} />
+
+            <Route exact path="/orders" element={<Order />} />
+
+            <Route exact path="/orders/:id" element={<SingleOrder />} />
 
           </Routes>
 

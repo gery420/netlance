@@ -32,5 +32,7 @@ app.use("/buyer", require("./routes/buyer"));
 app.use("/seller", require("./routes/seller"));
 app.use("/common", require("./routes/common"));
 app.use("/gig", require("./routes/gig"));
+app.use("/order", require("./routes/order"));
+app.use("/chat", require("./routes/chat"));
 
 module.exports = app;
