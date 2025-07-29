@@ -56,8 +56,7 @@ const Form = ({profile}) => {
         }
     }
 
-    const handleReset = async (e) => {
-        e.preventDefault();
+    const handleReset = async () => {
     
         try {
 
@@ -102,8 +101,7 @@ const Form = ({profile}) => {
         }
     }
 
-    const handleSave = async (e) => {
-        e.preventDefault();
+    const handleSave = async () => {
 
         try {
             setSave(true);
