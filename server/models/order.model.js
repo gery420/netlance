@@ -19,6 +19,11 @@ const orderSchema = new Schema({
         ref: 'Seller',
         required: true,
     },
+    reviewId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+        default: null,
+    },
     title: {
         type: String,
         required: true,

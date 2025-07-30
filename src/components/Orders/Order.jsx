@@ -60,16 +60,15 @@ return (
     <div >
         <Navbar />
         <div className='size-full flex flex-col items-center justify-center mt-36'>
-            <h1 className="text-3xl font-bold text-center">{userType === 'buyer' ? 'Your Purchases' : 'Your Orders'}</h1>
-            <div className="flex flex-col-reverse w-[70%] mt-10 gap-6">
+            <h1 className="text-3xl w-[70%] font-bold text-left">{userType === 'buyer' ? 'Your Purchases' : 'Your Orders'}</h1>
+            <div className="flex flex-col-reverse w-[70%] mt-10 mb-10 gap-6">
                 {orders.map((order) => (    
                 <div key={order._id} className={`p-6 border rounded-xl shadow-[27px_27px_69px_rgb(219,215,219)] flex flex-col md:flex-row justify-between items-start md:items-center ${order.status === 'cancelled' ? 'bg-zinc-200' : 'bg-white'}`}>
                     <div className="flex flex-col">
                     <p className="text-xl font-semibold mb-2">{order.title}</p>
                     <p className="text-gray-700">₹{order.price}</p>
                     <p className="text-gray-600">Status: <span className="font-bold">{order.status}</span></p>
-
-                    <p className="text-gray-500 text-sm">Created: {new Date(order.createdAt).toLocaleString()}</p>
+                    <Link to={`/gig/${order.gigID?._id}`} target='_blank' className="text-blue-500 hover:underline">View Gig</Link>
                     </div>
                     
                     {userType === 'seller' && (
@@ -133,12 +132,18 @@ return (
                             ) : null}
                             {order.status === 'completed' ? (
                                 <div className=" flex flex-row justify-center items-center gap-4">
-                                    <span className="text-gray-500 font-bold">Order Completed</span>
                                     <Link to={`/orders/${order._id}`} target='_blank'
                                             className="px-3 py-1 bg-[var(--purple)] text-white rounded hover:bg-[#5452b3]"
                                             >
                                             View Order
                                     </Link>
+                                    {order.reviewId ? (
+                                        <span className="text-green-500 font-bold">Review Submitted</span>
+                                    ) : (
+                                        <Link to={`/review/create/${order._id}/${order.gigID?._id}`} className="px-3 py-1 bg-[var(--purple)] text-white rounded hover:bg-[#5452b3]">
+                                            Create Review
+                                        </Link>
+                                    )}
                                 </div>
                             ) : null}
                             {order.status === 'cancelled' ? (

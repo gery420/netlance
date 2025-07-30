@@ -45,7 +45,7 @@ const gigSchema = new Schema({
         type: Number,
         default: 0,
     },
-    starNumber: {
+    totalReviews: {
         type: Number,
         default: 0,
     },

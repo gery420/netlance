@@ -34,5 +34,6 @@ app.use("/common", require("./routes/common"));
 app.use("/gig", require("./routes/gig"));
 app.use("/order", require("./routes/order"));
 app.use("/chat", require("./routes/chat"));
+app.use("/review", require("./routes/review"));
 
 module.exports = app;

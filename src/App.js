@@ -26,6 +26,8 @@ import PaymentSuccess from './pages/PaymentSucces.jsx';
 import Order from './components/Orders/Order.jsx';
 import SingleOrder from './components/Orders/singleOrder.jsx';
 
+import CreateReview from './components/Review/createReview.jsx';
+
 //User Context
 import UserProvider from './context/UserContext.js';
 
@@ -65,6 +67,8 @@ function App() {
             <Route exact path="/orders" element={<Order />} />
 
             <Route exact path="/orders/:id" element={<SingleOrder />} />
+
+            <Route exact path="/review/create/:orderId/:gigId" element={<CreateReview />} />
 
           </Routes>
 

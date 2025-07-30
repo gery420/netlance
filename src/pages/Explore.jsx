@@ -34,7 +34,11 @@ const Explore = () => {
         <div>
             <Navbar />
             <div className="mt-20 w-[99vw] flex items-center justify-center">
-                <div className="inline-flex flex-row flex-wrap flex-grow p-10 gap-8 w-[100%] justify-start items-start">
+                <div className="inline-flex flex-col flex-wrap flex-grow p-10 gap-8 w-[100%] justify-start items-start">
+                    <div>
+                        <p className="text-xl mb-4"><Link to="/home">Home /</Link> Explore</p>
+                    </div>
+                    <div className="flex flex-wrap gap-6 w-full justify-start items-start">
                         {gigs.map((gig) => (
                             <div key={gig._id} className="bg-white p-4 rounded-xl w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
                                 <img
@@ -49,7 +53,7 @@ const Explore = () => {
                                     <p className="text-sm text-gray-500 mt-1">{gig.revisionNumber} Revisions</p>
                                 </div>
                                 <div className="flex w-[100%] justify-between flex-row items-center mt-2">
-                                    <span className=" text-gray-600">{gig.totalStars || 'No ratings yet'}</span>
+                                    <span className=" text-gray-600"><span className="text-yellow-400">★</span> {(gig.totalStars/gig.totalReviews).toFixed(1) || 'No ratings yet'}</span>
                                     <p className="text-sm text-gray-500 mt-1">By {gig.sellerName}</p>
                                 </div>
                                 <div className="mt-4 flex justify-between items-center">
@@ -58,6 +62,7 @@ const Explore = () => {
                             </div>
                         ))}
                     </div>
+                </div>
             </div>
         </div>
     );
