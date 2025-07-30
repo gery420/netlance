@@ -116,7 +116,7 @@ const SingleGig = () => {
                 <div className="flex flex-col items-start justify-start w-[70%]">
                     <div className="flex flex-col items-start justify-start">
                         <h1 className="text-4xl font-bold">{gig.title}</h1>
-                        <h2 className="text-xl">{gig.sellerUserName}</h2>
+                        <h2 className="text-xl mt-2"><span className="text-lg font-normal">Seller:</span> {gig.sellerUserName}</h2>
                         <div className="flex flex-row mt-4 items-center">
                             <span className="text-yellow-400">★</span>
                             <span className="ml-1">{gig.totalReviews!==0 ? (gig.totalStars/gig.totalReviews).toFixed(1) : 0} ({gig.totalReviews} reviews)</span>
