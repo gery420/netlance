@@ -23,7 +23,7 @@ const buyerSchema = new Schema({
     },
     profilePicture: {
         type: String,
-        default: "https://www.gravatar.com/avatar/",
+        default: "http://www.gravatar.com/avatar/?d=mp",
     },
     phonenumber : {
         type: String,

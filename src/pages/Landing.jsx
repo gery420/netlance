@@ -1,5 +1,5 @@
 
-import Navbar from '../components/Landing/Navbar.jsx';
+import Navbar from '../components/common/Navbar.jsx';
 import Hero from '../components/Landing/Hero.jsx';
 import Footer from '../components/Landing/Footer.jsx';
 import { useContext, useEffect } from 'react';

@@ -1,7 +1,10 @@
 const express = require("express");
-const {RegisterSeller} = require("../controllers/seller");
+const {RegisterSeller, Dashboard} = require("../controllers/seller");
 const router = express.Router();
+const upload = require("../middleware/upload");
+const Auth = require("../middleware/auth");
 
-router.post('/registerSeller', RegisterSeller);
+router.post('/registerSeller', upload.fields([{ name: 'profilePicture', maxCount: 1 }]), RegisterSeller);
+router.get('/dashboard', Auth, Dashboard);
 
 module.exports = router;

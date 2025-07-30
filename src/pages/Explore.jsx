@@ -53,7 +53,7 @@ const Explore = () => {
                                     <p className="text-sm text-gray-500 mt-1">{gig.revisionNumber} Revisions</p>
                                 </div>
                                 <div className="flex w-[100%] justify-between flex-row items-center mt-2">
-                                    <span className=" text-gray-600"><span className="text-yellow-400">★</span> {(gig.totalStars/gig.totalReviews).toFixed(1) || 'No ratings yet'}</span>
+                                    <span className=" text-gray-600"><span className="text-yellow-400">★</span> {gig.totalReviews === 0 ? 'No ratings yet' : (gig.totalStars/gig.totalReviews).toFixed(1)}</span>
                                     <p className="text-sm text-gray-500 mt-1">By {gig.sellerUserName}</p>
                                 </div>
                                 <div className="mt-4 flex justify-between items-center">

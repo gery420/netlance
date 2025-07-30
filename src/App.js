@@ -33,6 +33,8 @@ import UserProvider from './context/UserContext.js';
 
 import Explore from './pages/Explore.jsx';
 
+import Dashboard from './pages/SellerDashBoard.jsx';
+
 function App() {
   return (
     <>
@@ -69,6 +71,8 @@ function App() {
             <Route exact path="/orders/:id" element={<SingleOrder />} />
 
             <Route exact path="/review/create/:orderId/:gigId" element={<CreateReview />} />
+
+            <Route exact path="/dashboard" element={<Dashboard />} />
 
           </Routes>
 

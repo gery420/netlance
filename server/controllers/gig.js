@@ -124,7 +124,6 @@ exports.GetGigById = async (req, res) => {
                 success: false
             });
         }
-
         const seller = await Seller.findById(gig.sellerID, 'username');
         return res.status(200).json({
             message: "Gig fetched successfully",

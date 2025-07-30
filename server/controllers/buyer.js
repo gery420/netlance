@@ -17,6 +17,7 @@ exports.RegisterBuyer = async (req, res, next) => {
             phonenumber: user.phonenumber,
             country: user.country,
             type: user.type,
+            profilePicture: req.files.profilePicture?.[0]?.path,
         });
 
         await buyer.save();

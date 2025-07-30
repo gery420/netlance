@@ -16,6 +16,7 @@ const LeftSignUp = () => {
         phonenumber: "",
         country: "",
         type:"",
+        profilePicture: ""
     })
 
     const [load, setload] = useState(false);
@@ -97,21 +98,26 @@ const LeftSignUp = () => {
             }
 
             event.preventDefault();
-            let postData = {
-                name: data.name,
-                username: data.username,
-                password: data.password,
-                email: data.email,
-                phonenumber: data.phonenumber,
-                country: data.country,
-                type: data.type
-            }
+            
+            const postData = new FormData();
+            postData.append("name", data.name);
+            postData.append("username", data.username);
+            postData.append("password", data.password);
+            postData.append("email", data.email);
+            postData.append("phonenumber", data.phonenumber);
+            postData.append("country", data.country);
+            postData.append("type", data.type);
+            postData.append("profilePicture", data.profilePicture);
 
             setload(true);
 
             if (data.type === "buyer") {
 
-                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData);
+                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/registerBuyer`, postData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
                 console.log("Response from server:", res);
 
                 setload(false);
@@ -123,7 +129,8 @@ const LeftSignUp = () => {
                     email: "",
                     phonenumber: "",
                     country: "",
-                    type: ""
+                    type: "",
+                    profilePicture: ""
                 });
                 if (res.data.success) {
                     swal.fire({
@@ -134,7 +141,11 @@ const LeftSignUp = () => {
                     navigate("/login");
                 }
             } else if (data.type === "seller") {
-                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/seller/registerSeller`, postData);
+                let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/seller/registerSeller`, postData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
                 console.log("Response from server:", res);
 
                 setload(false);
@@ -146,7 +157,8 @@ const LeftSignUp = () => {
                     email: "",
                     phonenumber: "",
                     country: "",
-                    type: ""
+                    type: "",
+                    profilePicture: ""
                 });
                 if (res.data.success) {
                     swal.fire({
@@ -169,11 +181,18 @@ const LeftSignUp = () => {
         }
     }
     const updateInfo = (event) => {
-        const { name, value } = event.target;
+        const { name, value, files, type } = event.target;
         //setting the data
-        setData((prevData) => {
-        return { ...prevData, [name]: value };
-        });
+        if (type === "file") {
+            setData((prevData) => {
+                return { ...prevData,
+                    profilePicture: files[0] };
+            });
+        } else {
+            setData((prevData) => {
+                return { ...prevData, [name]: value };
+            });
+        }
     };
 
     return (
@@ -208,10 +227,16 @@ const LeftSignUp = () => {
                             </label>
                         </div>
                         <br />
-                        <label htmlFor="email" className="w-[100%]">
-                        Email:
-                            <input type="email" name="email" value={data.email} placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
-                        </label>
+                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                            <label htmlFor="profilePicture" className="w-[100%]">
+                            Profile Picture:
+                                <input type="file" accept="image/*"  name="profilePicture" onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                            <label htmlFor="email" className="w-[100%]">
+                            Email:
+                                <input type="email" name="email" value={data.email} placeholder="Email" required onChange={updateInfo} className=" mt-1 w-[100%]  h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
+                            </label>
+                        </div>
                         <br />
                         <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="phonenumber" className="w-[100%]">
