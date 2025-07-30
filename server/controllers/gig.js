@@ -88,19 +88,19 @@ exports.DeleteGig = async (req, res) => {
 exports.GetAllGigs = async (req, res) => {
     try {
         const gigs = await Gig.find();
-        const sellerName = await Promise.all(
+        const sellerUserName = await Promise.all(
             gigs.map( async (gig) => {
-                const seller = await Seller.findById(gig.sellerID, 'name');
+                const seller = await Seller.findById(gig.sellerID, 'username');
                 return {
                     ...gig._doc,
-                    sellerName: seller ? seller.name : 'Unknown Seller'
+                    sellerUserName: seller ? seller.username : 'Unknown Seller'
                 }
             })
         ); // Assuming you have a seller model with a name field;
         return res.status(200).json({
             message: "All gigs fetched successfully",
             success: true,
-            gigs:sellerName,
+            gigs:sellerUserName,
             
         });
     } catch (error) {
@@ -131,7 +131,7 @@ exports.GetGigById = async (req, res) => {
             success: true,
             gig: {
                 ...gig._doc,
-                sellerName: seller ? seller.name : 'Unknown Seller'
+                sellerUserName: seller ? seller.username : 'Unknown Seller'
             }
         });
     } catch (error) {

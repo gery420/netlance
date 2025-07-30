@@ -54,7 +54,7 @@ const Explore = () => {
                                 </div>
                                 <div className="flex w-[100%] justify-between flex-row items-center mt-2">
                                     <span className=" text-gray-600"><span className="text-yellow-400">★</span> {(gig.totalStars/gig.totalReviews).toFixed(1) || 'No ratings yet'}</span>
-                                    <p className="text-sm text-gray-500 mt-1">By {gig.sellerName}</p>
+                                    <p className="text-sm text-gray-500 mt-1">By {gig.sellerUserName}</p>
                                 </div>
                                 <div className="mt-4 flex justify-between items-center">
                                     <Link to={`/gig/${gig._id}`} className="text-blue-500 hover:underline">View Details</Link>
