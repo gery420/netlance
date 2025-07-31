@@ -6,69 +6,71 @@ import Navbar from '../common/Navbar';
 import { Link } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../common/loading';
+import { useParams } from 'react-router-dom';
 
 const Order = () => {
-const { user, userType, isLoggedIn } = useContext(UserContext);
-const [ filter, setFilter ] = useState('all'); 
-const [orders, setOrders] = useState([]);
-const navigate = useNavigate();
-const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.status === filter);
+    
+    const { user, userType, isLoggedIn } = useContext(UserContext);
+    const [ filter, setFilter ] = useState('all'); 
+    const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
+    const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.status === filter);
 
-const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-const fetchOrders = async () => {
-    try {
-        setLoading(true);
-    const endpoint = userType === 'buyer'
-        ? `/order/buyer/${user._id}`
-        : `/order/seller/${user._id}`;
+    const fetchOrders = async () => {
+        try {
+            setLoading(true);
+        const endpoint = userType === 'buyer'
+            ? `/order/buyer/${user.id}`
+            : `/order/seller/${user.id}`;
 
-    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
-        withCredentials: true,
-    });
-
-    setOrders(res.data.orders);
-    setLoading(false);
-    } catch (error) {
-        setLoading(false);
-        console.error("Error fetching orders:", error);
-    } finally {
-        setLoading(false);
-    }
-};
-
-const updateOrderStatus = async (orderId, newStatus) => {
-    try {
-    const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
-        status: newStatus,
-    }, {
-        withCredentials: true,
-    });
-
-    swal.fire("Updated", `Order status changed to ${newStatus}`, "success");
-    fetchOrders(); // Refresh list
-    } catch (err) {
-    swal.fire("Error", "Could not update order status", "error");
-    }
-};
-
-useEffect(() => {
-    if (isLoggedIn){
-        if (user && user._id) {
-        fetchOrders();
-        }
-    }else{
-        swal.fire({
-            title: "Access Denied",
-            text: "You must be logged in to view orders.",
-            icon: "error",
-            confirmButtonText: "OK"
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
+            withCredentials: true,
         });
-        navigate('/');
-    }
-}, [user]);
 
-if (loading) return <LoadingScreen />;
+        setOrders(res.data.orders);
+        setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error("Error fetching orders:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const updateOrderStatus = async (orderId, newStatus) => {
+        try {
+        const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
+            status: newStatus,
+        }, {
+            withCredentials: true,
+        });
+
+        swal.fire("Updated", `Order status changed to ${newStatus}`, "success");
+        fetchOrders(); // Refresh list
+        } catch (err) {
+        swal.fire("Error", "Could not update order status", "error");
+        }
+    };
+
+    useEffect(() => {
+        if (isLoggedIn){
+            if (user && user._id) {
+            fetchOrders();
+            }
+        }else{
+            swal.fire({
+                title: "Access Denied",
+                text: "You must be logged in to view orders.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+            navigate('/');
+        }
+    }, [user]);
+
+    if (loading) return <LoadingScreen />;
 
 return (
     <div >

@@ -118,17 +118,29 @@ exports.ConfirmOrder = async (req, res, next) => {
 }
 
 exports.GetOrdersByBuyerId = async (req, res, next) => {
-    const { buyerId } = req.params;
+
+    const  buyerID  = req.user.id ;
+    console.log("Buyer ID:", buyerID);
+    console.log("User ID in request:", req.user.id);
+
+    if (!req.user || req.user.id.toString() !== buyerID) {
+        return res.status(403).json({
+            message: "Unauthorized access",
+            success: false,
+        });
+    }
 
     try {
-        const orders = await Order.find({ buyerId }).populate('gigID').populate('sellerID');
+        const orders = await Order.find({ buyerID }).populate('gigID').populate('sellerID');
 
         if (!orders || orders.length === 0) {
+            console.log("No orders found for buyer:", buyerID);
             return res.status(404).json({
                 message: "No orders found for this buyer",
                 success: false,
             });
         }
+        console.log("Orders retrieved successfully for buyer:", buyerID);
 
         return res.status(200).json({
             message: "Orders retrieved successfully",
@@ -145,10 +157,17 @@ exports.GetOrdersByBuyerId = async (req, res, next) => {
 }
 
 exports.GetOrdersBySellerId = async (req, res, next) => {
-    const { sellerId } = req.params;
+    const  sellerID  = req.user.id;
+    console.log("Seller ID:", sellerID);
+    if (!req.user || req.user.id.toString() !== sellerID) {
+        return res.status(403).json({
+            message: "Unauthorized access",
+            success: false,
+        });
+    }
 
     try {
-        const orders = await Order.find({ sellerId }).populate('gigID').populate('buyerID');
+        const orders = await Order.find({ sellerID }).populate('gigID').populate('buyerID');
 
         if (!orders || orders.length === 0) {
             return res.status(404).json({
