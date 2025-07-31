@@ -12,6 +12,6 @@ router.post("/forgotPassword", GeneratePasswordResetToken);
 router.post("/verifyOtp", VerifyOtp);
 router.post("/setPassword", SetPassword);
 router.post("/resetPassword", Auth, ResetPassword);
-router.post("/updateProfile", upload.single("profilePicture"), Auth, UpdateProfile);
+router.post("/updateProfile", upload.fields([{ name: "profilePicture", maxCount: 1 }]), Auth, UpdateProfile);
 
 module.exports = router;
