@@ -21,6 +21,8 @@ const Form = ({profile}) => {
     const [name, setName] = useState(profile.name);
     const [username, setUsername] = useState(profile.username);
     const [phonenumber, setPhonenumber] = useState(profile.phonenumber);
+    const [profilePicture, setProfilePicture] = useState(profile.profilePicture);
+    const [ preview, setPreview ] = useState(profile.profilePicture);
 
     const [ newPassword, setNewPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
@@ -29,6 +31,7 @@ const Form = ({profile}) => {
         setName(profile.name || "");
         setUsername(profile.username || "");
         setPhonenumber(profile.phonenumber || "");
+        setProfilePicture(profile.profilePicture || "");
     }, [profile]);
 
     const logout = async (e) => {
@@ -106,11 +109,22 @@ const Form = ({profile}) => {
         e.preventDefault();
         try {
             setSave(true);
-            let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, {
-                name,
-                username,
-                phonenumber
-            }, { withCredentials: true });
+
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("username", username);
+            formData.append("phonenumber", phonenumber);
+            if (profilePicture) {
+                formData.append("profilePicture", profilePicture);
+            }
+
+            let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, formData, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            
 
             if (resp.data.success) {
                 swal.fire({
@@ -122,6 +136,11 @@ const Form = ({profile}) => {
                 profile.name = name;
                 profile.username = username;
                 profile.phonenumber = phonenumber;
+                if (resp.data.profile?.profilePicture) {
+                    profile.profilePicture = resp.data.profile.profilePicture;
+                }
+                setProfilePicture(null);
+                
             }
             setSave(false);
         } catch (error) {
@@ -157,7 +176,26 @@ const Form = ({profile}) => {
 
             <div className=" p-10 w-full h-[100%] flex flex-row gap-16 items-center justify-center flex-wrap">
                 <div className="w-[20%] h-[50%] flex items-center justify-center rounded-[1rem] shadow-[27px_27px_69px_rgb(219,215,219)]">
-                    <img src={profile.profilePicture} alt="Profile" className="w-32 h-32 rounded-full" />
+                    {isEditing ? (
+                        <div className="flex flex-col items-center justify-center">
+                            <label className="uploadProfile relative overflow-hidden size-32 rounded-full ">
+                                {preview ? (
+                                    <img src={preview} alt="Profile Preview" className="object-cover w-full h-full" /> 
+                                ) : (
+                                    <img src={profile.profilePicture} alt="Profile" className="object-cover w-full h-full" />
+                                )}
+                                <input type="file" accept="image/*" onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    setProfilePicture(file);
+                                    setPreview(URL.createObjectURL(file));
+                                    document.getElementById("fileSelected").textContent = file.name;
+                                }}/>
+                            </label>
+                            <p id="fileSelected">No File Choosen</p>
+                        </div>
+                    ) : 
+                        <img src={profile.profilePicture} alt="Profile" className="size-32 rounded-full" />
+                    }
                 </div>
                 <div className="flex flex-row gap-20 w-[70%] items-center justify-center flex-wrap">
                     <div className=" p-6 w-[25%] h-[25%] flex flex-col gap-4 items-start justify-center rounded-[1rem] shadow-[27px_27px_69px_rgb(219,215,219)]">

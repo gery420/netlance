@@ -41,8 +41,8 @@ const Navbar = () => {
                 )
             ) : 
             <div className="fixed z-50 top-0 w-[100dvw] h-[10dvh] bg-[var(--black)] flex items-center justify-between">
-                <div className="ml-[5dvw] relative h-[100%] pointer-events-none flex items-center justify-center">
-                    <div className="text-[var(--purple)] text-[8dvh] font-bold font-Times">N</div>                  
+                <div className="ml-[5dvw] relative h-[100%] flex items-center justify-center">
+                    <Link to="/" className="text-[var(--purple)] select-none text-[8dvh] font-bold font-Times">N</Link>                  
                 </div>
                 <div className="mr-[2dvw] relative h-[100%] sm:w-[40%] lg:w-[30%] w-[70%] flex items-center text-center justify-evenly">
                     <Link to="/" className="text-[var(--white)] sm:text-[2dvh] text-[1.7dvh] font-Nunito">Start Freelancing</Link>

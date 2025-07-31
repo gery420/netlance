@@ -2,6 +2,7 @@ import Navbar from "../components/common/Navbar";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import LoadingScreen from "../components/common/loading";
 
 const Explore = () => {
 
@@ -27,7 +28,7 @@ const Explore = () => {
     }, []);
 
     if (load) {
-        return <div className="w-full h-screen flex items-center justify-center">Getting Gigs for You...</div>;
+        return <LoadingScreen />;
     }
 
     return (
@@ -36,7 +37,7 @@ const Explore = () => {
             <div className="mt-20 w-[99vw] flex items-center justify-center">
                 <div className="inline-flex flex-col flex-wrap flex-grow p-10 gap-8 w-[100%] justify-start items-start">
                     <div>
-                        <p className="text-xl mb-4"><Link to="/home">Home /</Link> Explore</p>
+                        <p className="text-xl mb-4"><Link to="/">Home /</Link> Explore</p>
                     </div>
                     <div className="flex flex-wrap gap-6 w-full justify-start items-start">
                         {gigs.map((gig) => (

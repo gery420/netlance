@@ -228,9 +228,9 @@ const LeftSignUp = () => {
                         </div>
                         <br />
                         <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
-                            <label htmlFor="profilePicture" className="w-[100%]">
+                            <label htmlFor="profilePicture" for="upload" className="w-[100%]">
                             Profile Picture:
-                                <input type="file" accept="image/*"  name="profilePicture" onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="file" accept="image/*" id="upload" name="profilePicture" onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
                             </label>
                             <label htmlFor="email" className="w-[100%]">
                             Email:

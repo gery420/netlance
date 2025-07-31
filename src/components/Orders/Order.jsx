@@ -4,11 +4,14 @@ import { UserContext } from '../../context/UserContext';
 import swal from 'sweetalert2';
 import Navbar from '../common/Navbar';
 import { Link } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import LoadingScreen from '../common/loading';
 
 const Order = () => {
-const { user, userType } = useContext(UserContext);
+const { user, userType, isLoggedIn } = useContext(UserContext);
 const [ filter, setFilter ] = useState('all'); 
 const [orders, setOrders] = useState([]);
+const navigate = useNavigate();
 const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.status === filter);
 
 const [loading, setLoading] = useState(true);
@@ -50,13 +53,22 @@ const updateOrderStatus = async (orderId, newStatus) => {
 };
 
 useEffect(() => {
-    if (user && user._id) {
-    fetchOrders();
+    if (isLoggedIn){
+        if (user && user._id) {
+        fetchOrders();
+        }
+    }else{
+        swal.fire({
+            title: "Access Denied",
+            text: "You must be logged in to view orders.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+        navigate('/');
     }
 }, [user]);
 
-if (loading) return <div className="flex justify-center items-center h-screen">Loading Orders...</div>;
-
+if (loading) return <LoadingScreen />;
 
 return (
     <div >
@@ -177,7 +189,7 @@ return (
                                                 >
                                                 View Order
                                         </Link>
-                                        {order.reviewId ? (
+                                        {order.reviewId !== null ? (
                                             <span className="text-green-500 font-bold">Review Submitted</span>
                                         ) : (
                                             <Link to={`/review/create/${order._id}/${order.gigID?._id}`} className="px-3 py-1 bg-[var(--purple)] text-white rounded hover:bg-[#5452b3]">

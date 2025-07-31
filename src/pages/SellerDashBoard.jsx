@@ -3,15 +3,28 @@ import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import Navbar from '../components/common/Navbar';
 import { Link } from 'react-router';
-
+import swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
+import LoadingScreen from '../components/common/loading';
 
 const SellerDashboard = () => {
 
-const { user } = useContext(UserContext);
+const { userType, isLoggedIn } = useContext(UserContext);
 const [dashboardData, setDashboardData] = useState(null);
 const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
 useEffect(() => {
+    if (!isLoggedIn && userType !== 'seller') {
+        swal.fire({
+            title: 'Access Denied',
+            text: 'You must be logged in as a seller to view this page.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        navigate('/');
+    }
+
     const fetchDashboard = async () => {
     try {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/seller/dashboard`, {
@@ -28,7 +41,11 @@ useEffect(() => {
     fetchDashboard();
 }, []);
 
-if (loading) return <p>Loading your dashboard, try not to blink...</p>;
+if (loading) {
+    return(
+        <LoadingScreen /> // Show loading screen while fetching data
+    )
+}
 
 const { gigs, orders, reviews } = dashboardData;
 
@@ -37,6 +54,7 @@ const inProgressOrders = orders.filter(order => order.status === 'in-progress');
 const cancelledOrders = orders.filter(order => order.status === 'cancelled');
 
 const totalRevenue = completedOrders.reduce((sum, order) => sum + order.price, 0);
+
 
 return (
     <div className="w-[100dvw] mt-[15dvh] flex-col flex items-center justify-center">

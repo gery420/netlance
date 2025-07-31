@@ -142,3 +142,52 @@ exports.GetGigById = async (req, res) => {
         });
     }
 }
+
+exports.UpdateGig = async (req, res) => {
+    try {
+        const gigId = req.params.id;
+        const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber } = req.body;
+
+        let features = req.body.features;
+
+        if (features && !Array.isArray(features)) {
+            features = [features];
+        }
+
+        const updates = {
+            ...(title && { title }),
+            ...(shortTitle && { shortTitle }),
+            ...(desc && { desc }),
+            ...(shortDesc && { shortDesc }),
+            ...(price && { price }),
+            ...(deliveryTime && { deliveryTime }),
+            ...(revisionNumber && { revisionNumber }),
+            ...(features && { features }),
+        };
+
+        if (req.files && req.files.cover && req.files.cover.length > 0) {
+            updates.cover = req.files.cover[0].path;
+        }
+        const updatedGig = await Gig.findByIdAndUpdate(gigId, updates, { new: true });
+
+        if (!updatedGig) {
+            return res.status(404).json({
+                message: "Gig not found",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: "Gig updated successfully",
+            success: true,
+            gig: updatedGig
+        });
+    } catch (error) {
+        console.error("Error updating gig:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false,
+            error: error.message
+        });
+    }
+}

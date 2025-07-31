@@ -19,7 +19,7 @@ import MyAccount from './pages/MyAccount.jsx';
 import CreateGig from './components/Gigs/createGig.jsx'
 import Gig from './pages/Gig.jsx'
 import SingleGig from './components/Gigs/singleGig.jsx';
-
+import EditGig from './components/Gigs/editGig.jsx';
 
 import PaymentSuccess from './pages/PaymentSucces.jsx';
 
@@ -61,6 +61,8 @@ function App() {
             <Route exact path="/gig" element={<Gig />} />
 
             <Route exact path="/gig/:id" element={<SingleGig />} />
+
+            <Route exact path="/editGig/:id" element={<EditGig />} />
 
             <Route exact path="/explore" element={<Explore />} />
 

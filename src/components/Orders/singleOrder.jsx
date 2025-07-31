@@ -1,9 +1,11 @@
 import React, { useContext, useState,useEffect } from 'react';
 import Navbar from '../common/Navbar';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
+import swal from 'sweetalert2';
+import LoadingScreen from '../common/loading';
 
 const SingleOrder = () => {
 
@@ -13,7 +15,18 @@ const SingleOrder = () => {
     const [conversation, setConversation] = useState(null);
     const [messages, setMessages] = useState([]);                           
     const [newMessage, setNewMessage] = useState("");     
-    const { user, userType } = useContext(UserContext);
+    const { user, userType, isLoggedIn } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    if (!isLoggedIn) {
+        swal.fire({
+            title: "Access Denied",
+            text: "You must be logged in to view this order.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+        navigate('/');
+    }
 
     const getOrderById = async () => {
         try {
@@ -83,7 +96,7 @@ const SingleOrder = () => {
         };
     }, [conversation]);
 
-    if (loading) return <div className="flex justify-center items-center h-screen">Loading Order...</div>;
+    if (loading) return <LoadingScreen />;
     if (!order) return <div className="text-center mt-20 text-xl font-bold">Order not found.</div>;
 
     return (

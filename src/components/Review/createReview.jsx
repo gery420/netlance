@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert2';
@@ -7,10 +7,10 @@ import Navbar from '../common/Navbar';
 
 
 const CreateReview = () => {
-
-    const { user } = useContext(UserContext);
-    const { orderId, gigId } = useParams();
+    
     const [ load , setLoad ] = useState(false);
+    const { user, isLoggedIn } = useContext(UserContext);
+    const { orderId, gigId } = useParams();
 
     const navigate = useNavigate();
 
@@ -75,6 +75,17 @@ const CreateReview = () => {
             setLoad(false);
         }
     }
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            swal.fire({
+                title: "Please Login",
+                text: "You need to be logged in to create a review.",
+                icon: "error",
+            });
+            navigate('/');
+        }
+    }, [isLoggedIn]);
 
     return (
         <div className='w-[100dvw] h-[100dvh] bg-[var(--white)] overflow-hidden'>

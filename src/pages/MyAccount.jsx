@@ -3,6 +3,7 @@ import {UserContext} from "../context/UserContext";
 import Form from "../components/myaccount/form";
 import { useNavigate} from "react-router";
 import Navbar from "../components/common/Navbar"
+import swal from "sweetalert2";
 
 const MyAccount = () => {
     
@@ -12,6 +13,11 @@ const MyAccount = () => {
 
     useEffect(() => {
         if (!isLoggedIn) {
+            swal.fire({
+                title: "Access Denied",
+                text: "You must be logged in to access your account.",
+                icon: "error",
+            });
             navigate("/login");
         }
         console.log("Profile in MyAccount:", profile);

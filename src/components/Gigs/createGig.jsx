@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import swal from "sweetalert2";
 import { UserContext } from "../../context/UserContext";
-
+import LoadingScreen from "../common/loading";
 import Navbar from "../common/Navbar"
 
 const CreateGig = () => {
@@ -24,13 +24,31 @@ const CreateGig = () => {
     });
 
     const [load , setLoad] = useState(false);
-    const {isLoggedIn} = useContext(UserContext);
+    const {isLoggedIn, userType} = useContext(UserContext);
     
     useEffect(() => {
         if (!isLoggedIn) {
+            swal.fire({
+                title: "Access Denied",
+                text: "You must be logged in & have a seller profile to create a gig.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
             navigate("/login");
         }
     });
+    if (userType !== "seller") {
+        return (
+            <>  
+                <Navbar />
+                <div className="w-full mt-[15dvh] flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold">Access Denied</h1>
+                    <br/>
+                    <p className="text-gray-600">You do not have permission to view this page.</p>
+                </div>
+            </>
+        );
+    }
 
     const handleChange = (e) => {
 
@@ -215,13 +233,13 @@ const CreateGig = () => {
                         </div>
 
                         <div className="flex w-[100%] h-[100%] flex-row gap-4 items-start justify-between">
-                            <label htmlFor="cover">
+                            <label htmlFor="cover" for="upload">
                                 Cover Image:
-                                <input type="file" name="cover" accept="image/*" onChange={handleChange} className=" mt-1 w-[100%] h-[60%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="file" name="cover" id="upload" accept="image/*" onChange={handleChange} className=" mt-1 w-[100%] h-[60%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
-                            <label htmlFor="images">
+                            <label htmlFor="images" for="upload">
                                 Additional Images:
-                                <input type="file" name="images" accept="image/*" multiple onChange={handleChange} className=" mt-1 w-[100%] h-[60%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                                <input type="file" name="images" id="upload" accept="image/*" multiple onChange={handleChange} className=" mt-1 w-[100%] h-[60%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                         </div>
 

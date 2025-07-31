@@ -56,3 +56,33 @@ exports.getReviewByGig = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
+
+exports.deleteReview = async (req, res) => {
+    const { reviewId } = req.params;
+
+    try {
+        const review = await Review.findById(reviewId);
+        if (!review) {
+            return res.status(404).json({ success: false, message: "Review not found" });
+        }
+        const gig = await Gig.findById(review.gigId);
+        if (!gig) {
+            return res.status(404).json({ success: false, message: "Gig not found" });
+        }
+        gig.totalStars -= review.star;
+        gig.totalReviews -= 1;
+
+        const order = await Order.findOne({ reviewId: reviewId });
+        if (order) {
+            order.reviewId = null;
+            await order.save();
+        }
+
+        await gig.save();
+        await Review.findByIdAndDelete(reviewId);
+        res.status(200).json({ success: true, message: "Review deleted successfully" });
+    } catch (error) {
+        console.error("Delete review error:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}

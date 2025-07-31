@@ -256,6 +256,10 @@ exports.UpdateProfile = async (req, res, next) => {
         user.username = username || user.username;
         user.phonenumber = phonenumber || user.phonenumber;
 
+        if (req.file && req.file.path) {
+            user.profilePicture = req.file.path; // Assuming the file path is stored in the profilePicture field
+        }
+
         await user.save();
 
         return res.status(200).json({
@@ -265,6 +269,7 @@ exports.UpdateProfile = async (req, res, next) => {
                 name: user.name,
                 username: user.username,
                 phonenumber: user.phonenumber,
+                profilePicture: user.profilePicture || null, // Ensure profilePicture is included
             }
         });
     } catch (error) {

@@ -1,11 +1,12 @@
 
 import Navbar from "../common/Navbar";
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
 import { UserContext } from "../../context/UserContext";
 import swal from "sweetalert2";
+import LoadingScreen from "../common/loading";
 
 const SingleGig = () => {
 
@@ -44,9 +45,8 @@ const SingleGig = () => {
         }
     }, [gig]);
     
-
     if (loading) {
-        return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+        return <LoadingScreen />;
     }
 
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -61,7 +61,6 @@ const SingleGig = () => {
                 icon: "warning",
                 confirmButtonText: "Login",
             });
-            navigate("/login");
             return;
         }
 
@@ -96,11 +95,10 @@ const SingleGig = () => {
 
     }
 
-
     const getReviews = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/review/view/${gig._id}`, {
-                withCredentials: true,
+               
             });
             setReviews(response.data.reviews);
             return response.data.reviews;
@@ -109,11 +107,47 @@ const SingleGig = () => {
             return [];
         }
     }
+
+    const deleteReview = async (reviewId) => {
+        try {
+            if (!isLoggedIn) {
+                swal.fire({
+                    title: "Access Denied",
+                    text: "You must be logged in to delete a review.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+            await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/review/delete/${reviewId}`, {
+                withCredentials: true,
+            });
+            setReviews(reviews.filter(review => review._id !== reviewId));
+            swal.fire({
+                title: "Success",
+                text: "Review deleted successfully.",
+                icon: "success",
+                confirmButtonText: "OK",
+            });
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            swal.fire({
+                title: "Error",
+                text: "There was an error deleting the review. Please try again later.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        }
+    }
+
     return (
         <div className="w-full mt-[10dvh] flex flex-col items-center justify-center">
             <Navbar />
             <div className="w-[100%] h-[100%] p-10 flex flex-row items-start justify-start">
                 <div className="flex flex-col items-start justify-start w-[70%]">
+                    <div className="flex flex-row items-center justify-between w-full mb-4">
+                        <Link to="/explore"> &lt;-- Go Back</Link>
+                    </div>
                     <div className="flex flex-col items-start justify-start">
                         <h1 className="text-4xl font-bold">{gig.title}</h1>
                         <h2 className="text-xl mt-2"><span className="text-lg font-normal">Seller:</span> {gig.sellerUserName}</h2>
@@ -138,10 +172,17 @@ const SingleGig = () => {
                         <h3 className="text-2xl font-bold mb-4">Reviews</h3>
                         {reviews.map((review) => (
                             <div key={review._id} className="w-[100%] p-4 bg-white  shadow-[27px_27px_69px_rgb(219,215,219)] rounded-lg">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-yellow-500">★</span>
-                                    <span className="font-bold">{review.buyerId.username}</span>
-                                    <span className="text-gray-500 text-sm">({review.star} stars)</span>
+                                <div className="flex flex-row items-start justify-between gap-2">
+                                    <div className="flex flex-row items-center gap-2">
+                                        <span className="text-yellow-500">★</span>
+                                        <span className="font-bold">{review.buyerId.username}</span>
+                                        <span className="text-gray-500 text-sm">({review.star} stars)</span>
+                                    </div>
+                                    <div>
+                                        {userType === "buyer" ? (
+                                            <button onClick={() => deleteReview(review._id)} className="text-red-500 hover:underline text-sm">Delete</button>
+                                        ) : null}
+                                    </div>
                                 </div>
                                 <div className="mt-2">
                                     <p className="font-normal">{review.desc}</p>
@@ -173,7 +214,7 @@ const SingleGig = () => {
                         </div>
                     </div>
 
-                    {userType === "buyer" ? (
+                    
 
                         <div className="w-[100%] relative flex flex-col items-center justify-center mt-4">
                             <button 
@@ -183,7 +224,6 @@ const SingleGig = () => {
                                 {loading ? "Processing..." : "Buy Now"}
                             </button>
                         </div>
-                    ) : null}
 
                     
                 </div>

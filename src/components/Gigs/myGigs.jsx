@@ -3,11 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import swal from "sweetalert2";
-
+import LoadingScreen from "../common/loading";
 import { Link } from "react-router-dom";
+import Navbar from "../common/Navbar";
 
 const MyGigs = () => {
-
+    const { userType } = useContext(UserContext);
     const [gigs, setGigs] = useState([]);
     const { isLoggedIn } = useContext(UserContext);
     const [ load, setLoad ] = useState(true);
@@ -28,9 +29,9 @@ const MyGigs = () => {
     useEffect(() => {
         if (!isLoggedIn) {
             navigate("/login");
-            return;
+        } else{
+            fetchGigs();
         }     
-        fetchGigs();
     }, [isLoggedIn, navigate]);
 
     const handleDelete = async (gigId) => {
@@ -58,12 +59,23 @@ const MyGigs = () => {
     };
 
     if (load) {
-        return <div className="w-full h-screen flex items-center justify-center">Getting Your Gigs...</div>;
+        return <LoadingScreen />;
+    }
+    if (userType !== "seller") {
+        return (
+            <>
+                <div className="w-full mt-[15dvh] flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold">Access Denied</h1>
+                    <br/>
+                    <p className="text-gray-600">You do not have permission to view this page.</p>
+                </div>
+            </>
+        );
     }
 
     return (
         <div className=" p-6 flex flex-col items-center justify-center">
-
+            <Navbar />
             <div className="w-full h-[15dvh] top-[10dvh] flex flex-row justify-between items-center">
                 <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Your Gigs</h1>
                 <Link to="/createGig" className="w-[10%] h-[40%] p-3 transition-all duration-200 ease-in-out justify-self-center items-center text-center border-solid hover:bg-[var(--purple)] font-bold border-2 border-[var(--black)] mr-10 rounded-3xl" > Create a Gig</Link>
@@ -85,7 +97,10 @@ const MyGigs = () => {
                                 <p className="text-sm text-gray-400 mt-1">Delivery in {gig.deliveryTime} days</p>
                                 <div className="mt-4 flex justify-between items-center">
                                     <Link to={`/gig/${gig._id}`} target='_blank' className="text-blue-500 hover:underline">Public View</Link>
-                                    <button onClick={() => handleDelete(gig._id)} className="text-red-500 hover:underline">Delete</button>
+                                    <div className="flex gap-4">
+                                        <Link to={`/editGig/${gig._id}`} target='_blank' className="text-purple-500 hover:underline">Edit</Link>
+                                        <button onClick={() => handleDelete(gig._id)} className="text-red-500 hover:underline">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
