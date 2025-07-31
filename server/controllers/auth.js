@@ -256,8 +256,8 @@ exports.UpdateProfile = async (req, res, next) => {
         user.username = username || user.username;
         user.phonenumber = phonenumber || user.phonenumber;
 
-        if (req.file && req.file.path) {
-            user.profilePicture = req.file.path; // Assuming the file path is stored in the profilePicture field
+        if (req.files && req.files.profilePicture) {
+            user.profilePicture = req.files.profilePicture[0].path; // Assuming the file path is stored in the profilePicture field
         }
 
         await user.save();
