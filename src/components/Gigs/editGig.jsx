@@ -126,7 +126,7 @@ const EditGig = () => {
             console.error('Error updating gig:', error);
             swal.fire({
                 title: 'Error',
-                text: 'Failed to update gig',
+                text: error.response?.data?.message || 'An error occurred while updating the gig.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

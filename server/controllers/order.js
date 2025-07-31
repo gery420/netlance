@@ -221,6 +221,15 @@ exports.UpdateOrderStatus = async (req, res, next) => {
 exports.GetOrderById = async (req, res, next) => {
     const orderId = req.params.id;
 
+    const userId = req.user.id;
+    console.log("User ID:", userId);
+
+    const findOrder = await Order.findOne({ buyerID: userId}) || await Order.findOne({ sellerID: userId});
+    console.log("Order found:", findOrder);
+    if (!findOrder) {
+        return res.status(401).json({ success: false, message: "Unauthorized to view this order" });
+    }
+
     try {
         const order = await Order.findById(orderId).populate('gigID').populate('buyerID').populate('sellerID');
 

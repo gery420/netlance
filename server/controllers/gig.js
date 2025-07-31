@@ -1,6 +1,16 @@
 const Gig = require("../models/gig.model"); // Assuming you have a Gig model defined
 const Seller = require("../models/seller.model"); // Assuming you have a Seller model defined
 exports.CreateGig = async (req, res) => {
+
+    const sellerId = req.user._id;
+
+    const checkSeller = await Seller.findById(sellerId);
+
+    if (checkSeller.length === 0) {
+        return res.status(404).json({ success: false, message: "Seller not found" });
+    }
+    console.log("Seller found:", checkSeller);
+    
     try {
         console.log("\nCreate Gig controller called");
         const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber, features } = req.body;
@@ -146,6 +156,19 @@ exports.GetGigById = async (req, res) => {
 exports.UpdateGig = async (req, res) => {
     try {
         const gigId = req.params.id;
+        const sellerId = req.user.id;
+        console.log("Updating gig with ID:", gigId, "by seller ID:", sellerId);
+
+        const sellerCheck = await Gig.findOne({sellerID: sellerId });
+        if (sellerCheck=== null) {
+            return res.status(400).json({
+                message: "Unauthorized",
+                success: false
+            });
+        }
+
+        console.log("Seller found:", sellerCheck);
+
         const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber } = req.body;
 
         let features = req.body.features;

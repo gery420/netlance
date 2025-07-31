@@ -97,7 +97,10 @@ const SingleOrder = () => {
     }, [conversation]);
 
     if (loading) return <LoadingScreen />;
-    if (!order) return <div className="text-center mt-20 text-xl font-bold">Order not found.</div>;
+    if (!order) {
+        navigate('/orders');
+        return <div className="text-center mt-20 text-xl font-bold">Order not found.</div>;
+    }
 
     return (
         <div className=' flex flex-col items-center justify-center'>

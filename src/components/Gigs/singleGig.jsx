@@ -133,7 +133,7 @@ const SingleGig = () => {
             console.error("Error deleting review:", error);
             swal.fire({
                 title: "Error",
-                text: "There was an error deleting the review. Please try again later.",
+                text: error.response?.data?.message || "An error occurred while deleting the review.",
                 icon: "error",
                 confirmButtonText: "OK",
             });
@@ -179,7 +179,7 @@ const SingleGig = () => {
                                         <span className="text-gray-500 text-sm">({review.star} stars)</span>
                                     </div>
                                     <div>
-                                        {userType === "buyer" ? (
+                                        {user._id === review.buyerId?._id ? (
                                             <button onClick={() => deleteReview(review._id)} className="text-red-500 hover:underline text-sm">Delete</button>
                                         ) : null}
                                     </div>

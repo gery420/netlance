@@ -27,6 +27,8 @@ const CreateReview = () => {
         });
     }
 
+    
+
     const submitReview = async (e) => {
         e.preventDefault();
         
@@ -70,7 +72,7 @@ const CreateReview = () => {
             swal.fire({
                 icon: "error",
                 title: "Server Error",
-                text: "An error occurred while creating your review. Please try again later."
+                text: error.response.data.message || "An error occurred while creating the review."
             });
             setLoad(false);
         }

@@ -6,10 +6,22 @@ exports.createReview = async (req, res) => {
     const { gigId, orderId } = req.params;
     const { buyerId, desc, star } = req.body;
 
+    const userId = req.user.id;
+
+    const findUser = await Order.find({ _id: orderId, buyerID: userId });
+    console.log("User found for order:", findUser);
+    if (!findUser || findUser.length === 0) {
+        return res.status(401).json({ success: false, message: "Unauthorized to create review for this order" });
+    }
+    if (!findUser) {
+        return res.status(401).json({ success: false, message: "Unauthorized to create review for this order" });
+    }
+
     try {
         if (!gigId || !buyerId || !desc || star === undefined) {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
+
         const gigExists = await Gig.findById(gigId);
         if (!gigExists) {
             return res.status(404).json({ success: false, message: "Gig not found" });
@@ -59,6 +71,19 @@ exports.getReviewByGig = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
     const { reviewId } = req.params;
+
+    const userId = req.user.id; 
+    console.log("User ID from request:", userId);
+
+    const findUser = await Review.findOne({buyerId: userId});
+
+    console.log("User found for review:", findUser);
+    if (!findUser || findUser.length === 0) {
+        return res.status(401).json({ success: false, message: "Unauthorized to delete this review" });
+    }
+    
+    
+    console.log("Deleting review with ID:", userId);
 
     try {
         const review = await Review.findById(reviewId);
