@@ -50,7 +50,7 @@ exports.Dashboard = async (req, res) => {
                 path: 'buyerID',
                 model: 'Buyer',
                 select: 'username'
-            }).select('-__v -createdAt -updatedAt -paymentIntentId -sellerID');
+            }).select('-__v  -updatedAt -paymentIntentId -sellerID');
         let reviews = await Review.find({
             gigId : {$in: gigs.map(gig => gig._id)}
         }).populate({
