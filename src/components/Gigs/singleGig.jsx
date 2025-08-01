@@ -10,9 +10,7 @@ import LoadingScreen from "../common/loading";
 
 const SingleGig = () => {
 
-    const { isLoggedIn, userType, user } = useContext(UserContext);
-
-    const navigate = useNavigate();
+    const { isLoggedIn,  user, authToken } = useContext(UserContext);
 
     const { id } = useParams();
     
@@ -20,12 +18,13 @@ const SingleGig = () => {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
 
-
     const getGigById = async () => {
         try {
             setLoading(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/${id}`, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             });
             setGig(response.data.gig);
         } catch (error) {
@@ -48,6 +47,16 @@ const SingleGig = () => {
     if (loading) {
         return <LoadingScreen />;
     }
+    
+    if (!gig) {
+        return (
+            <>
+                <Navbar />
+                <div className="w-full h-screen flex items-center justify-center">Invalid Gig ID</div>
+            </>
+        );
+    }
+
 
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -69,7 +78,9 @@ const SingleGig = () => {
                 gigId: gig._id,
                 buyerId: user._id,
             }, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             });
             window.location.href = response.data.url;
             const stripe = await stripePromise;
@@ -120,7 +131,9 @@ const SingleGig = () => {
                 return;
             }
             await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/review/delete/${reviewId}`, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             });
             setReviews(reviews.filter(review => review._id !== reviewId));
             swal.fire({

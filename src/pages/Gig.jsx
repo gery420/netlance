@@ -6,18 +6,6 @@ import { UserContext } from "../context/UserContext";
 
 const Gig = () => {
 
-    const { isLoggedIn } = useContext(UserContext);
-    useEffect(() => {
-        if (!isLoggedIn) {
-            swal.fire({
-                title: "Access Denied",
-                text: "You must be logged in to view your gigs.",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
-        }
-    });
-
     return (
         <> 
         <div className=" flex-col flex mt-[10dvh]">

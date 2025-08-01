@@ -8,19 +8,25 @@ import swal from "sweetalert2";
 const MyAccount = () => {
     
     const navigate = useNavigate();
-    
-    const {isLoggedIn, profile} = useContext(UserContext);
+
+    const {isLoggedIn, profile, loadingUser, authToken} = useContext(UserContext);
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            swal.fire({
-                title: "Access Denied",
-                text: "You must be logged in to access your account.",
-                icon: "error",
-            });
-            navigate("/login");
+        const checkAccessAndFetch = async () => {
+            if (loadingUser) {
+                return;   
+            }
+            if (!isLoggedIn || !profile || !authToken) {
+                swal.fire({
+                    title: "Access Denied",
+                    text: "You must be logged in to access your account.",
+                    icon: "error",
+                });
+                navigate("/login");
+                return;
+            }
         }
-        console.log("Profile in MyAccount:", profile);
+        checkAccessAndFetch();
     }, []);
 
     return (

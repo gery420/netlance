@@ -22,7 +22,7 @@ const LeftLogin = () => {
     })
 
     const [load , setload] = useState(false);
-    const { setLoginStatus } = useContext(UserContext);
+    const { setLoginStatus, setUser, setUserType } = useContext(UserContext);
 
     const submitLogin = async (event) => {
         try{
@@ -55,10 +55,14 @@ const LeftLogin = () => {
 
             setload(true);
 
-            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/loginUser/`, postData, {withCredentials: true});
+            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/loginUser/`, postData);
 
+            const { accessToken, user, userType } = res.data;
+            console.log("Login response:", res.data.accessToken);
             if (res.data.success) {
-                setLoginStatus(true);
+                setLoginStatus(true, accessToken);
+                setUser(user);
+                setUserType(userType);
                 swal.fire({
                     title: "Success",
                     text: res.data.message,

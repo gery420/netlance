@@ -8,7 +8,11 @@ require("dotenv").config();
 //it will be executed on every request.If the token is not found then the user will need to login into the system.
 const Auth = async (req, _res, next) => {
   try {
-    let token = req.cookies.s_Id;
+    let authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        throw new AuthenticationError("Please login!");
+    }
+    const token = authHeader.split(" ")[1];
     console.log("Token in auth middleware:", token);
     if (!token) {
         throw new AuthenticationError("Please login!");

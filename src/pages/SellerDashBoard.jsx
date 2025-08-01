@@ -9,37 +9,48 @@ import LoadingScreen from '../components/common/loading';
 
 const SellerDashboard = () => {
 
-const { userType, isLoggedIn } = useContext(UserContext);
+const { userType, isLoggedIn, authToken, loadingUser } = useContext(UserContext);
 const [dashboardData, setDashboardData] = useState(null);
 const [loading, setLoading] = useState(true);
 const navigate = useNavigate();
 
 useEffect(() => {
-    if (!isLoggedIn && userType !== 'seller') {
-        swal.fire({
-            title: 'Access Denied',
-            text: 'You must be logged in as a seller to view this page.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-        navigate('/');
-    }
+    const checkAccessAndFetch = async () => {
 
-    const fetchDashboard = async () => {
-    try {
-        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/seller/dashboard`, {
-        withCredentials: true,
-        });
-        setDashboardData(res.data.data);
-        setLoading(false);
-    } catch (err) {
-        console.error("Dashboard fetch error:", err);
-        setLoading(false);
+        if (loadingUser) {
+            return; 
+        }
+        if (!isLoggedIn || userType !== 'seller' || !authToken) {
+            swal.fire({
+                title: 'Access Denied',
+                text: 'You must be logged in as a seller to view this page.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            navigate('/');
+            return;
+        }
+    
+        const fetchDashboard = async () => {
+            try {
+                setLoading(true);
+                const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/seller/dashboard`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+                });
+                setDashboardData(res.data.data);
+                setLoading(false);
+            } catch (err) {
+                console.error("Dashboard fetch error:", err);
+                setLoading(false);
+            }
+        };
+        fetchDashboard();
     }
-    };
+    checkAccessAndFetch();
+}, [loadingUser, isLoggedIn, userType, authToken, navigate]);
 
-    fetchDashboard();
-}, []);
 
 if (loading) {
     return(

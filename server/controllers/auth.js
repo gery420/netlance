@@ -13,6 +13,14 @@ const isPasswordMatch = async(password, ogpassword) => {
     return await bcrypt.compare(password, ogpassword);
 } 
 
+const createAccessToken = async (user_id, user_type) => {
+    return await promisify(jwt.sign)({ id: user_id, userType: user_type }, process.env.JWT_SECRET, { expiresIn: '30m' });
+}
+
+const createRefreshToken = async (user_id, user_type) => {
+    return await promisify(jwt.sign)({ id: user_id, userType: user_type }, process.env.JWT_SECRET, { expiresIn: '7d' });
+}
+
 const signJWT = async (user_id, user_type) => {
     return await promisify(jwt.sign)({ id: user_id, userType: user_type }, process.env.JWT_SECRET);
 };
@@ -52,25 +60,31 @@ exports.Login = async (req, res, next) => {
                 message: "Incorrect Credentials",
             });      
         } 
-        const token = await signJWT(user._id, user.type);
-        console.log("token in login : ", token);
+        const accessToken = await createAccessToken(user._id, user.type);
+        const refreshToken = await createRefreshToken(user._id, user.type);
 
-        //it will set the cookie in the browser
-        res.cookie("s_Id", token, {
+        res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: true, // Set to true in production
-            sameSite: "none", // Set to 'none' for cross-site cookies
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-        });
-        console.log("Cookie header about to be sent:", res.getHeaders()["set-cookie"]);
-
-        console.log("Token set in cookie");
-
+            secure: true, 
+            sameSite: "Strict", 
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        }); 
+        
         return res.status(200).json({
             message: "Login successful",
             success: true,
-            token: token,
+            accessToken: accessToken,
             userType: user.type,
+            user: {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                phonenumber: user.phonenumber,
+                country: user.country,
+                desc: user.desc,
+                profilePicture: user.profilePicture || null, // Ensure profilePicture is included
+            }
         });
 
     }

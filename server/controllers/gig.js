@@ -1,5 +1,7 @@
-const Gig = require("../models/gig.model"); // Assuming you have a Gig model defined
-const Seller = require("../models/seller.model"); // Assuming you have a Seller model defined
+const Gig = require("../models/gig.model");
+const Seller = require("../models/seller.model");
+const Review = require("../models/review.model");
+
 exports.CreateGig = async (req, res) => {
 
     const sellerId = req.user._id;
@@ -81,6 +83,7 @@ exports.DeleteGig = async (req, res) => {
                 success: false
             });
         }
+        await Review.deleteMany({ gigId: gigId });
 
         return res.status(200).json({
             message: "Gig deleted successfully",

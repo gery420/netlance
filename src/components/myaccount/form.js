@@ -6,7 +6,7 @@ import swal from "sweetalert2";
 
 const Form = ({profile}) => {
 
-    const { isLoggedIn, setLoginStatus } = useContext(UserContext);
+    const { isLoggedIn, setLoginStatus, authToken } = useContext(UserContext);
     useEffect(() => {
         console.log("Profile data:", profile);
     }, [isLoggedIn]);
@@ -38,7 +38,11 @@ const Form = ({profile}) => {
         e.preventDefault();
         try{
             setLoad(true);
-            let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/logoutUser/`, { withCredentials: true });
+            let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/logoutUser/`, { 
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
             if (resp.data.success) {
                 setLoginStatus(false);
                 swal.fire({
@@ -83,7 +87,11 @@ const Form = ({profile}) => {
             }
 
             setLoading(true);
-            let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/resetPassword/`, { newPassword }, { withCredentials: true });
+            let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/resetPassword/`, { newPassword }, { 
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
             if (resp.data.success) {
                 swal.fire({
                     title: "Success",
@@ -119,9 +127,9 @@ const Form = ({profile}) => {
             }
 
             let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, formData, {
-                withCredentials: true,
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${authToken}`,
                 }
             });
             

@@ -13,7 +13,6 @@ const Explore = () => {
         try {
             setLoad(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/all`, {
-                withCredentials: true,
             });
             setGigs(response.data.gigs);
             setLoad(false);

@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 const Order = () => {
     
-    const { user, userType, isLoggedIn } = useContext(UserContext);
+    const { user, userType, isLoggedIn, authToken, loadingUser } = useContext(UserContext);
     const [ filter, setFilter ] = useState('all'); 
     const [orders, setOrders] = useState([]);
     const navigate = useNavigate();
@@ -26,11 +26,12 @@ const Order = () => {
             : `/order/seller/${user.id}`;
 
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
-            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
         });
 
         setOrders(res.data.orders);
-        setLoading(false);
         } catch (error) {
             setLoading(false);
             console.error("Error fetching orders:", error);
@@ -44,7 +45,9 @@ const Order = () => {
         const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
             status: newStatus,
         }, {
-            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
         });
 
         swal.fire("Updated", `Order status changed to ${newStatus}`, "success");
@@ -55,20 +58,24 @@ const Order = () => {
     };
 
     useEffect(() => {
-        if (isLoggedIn){
-            if (user && user._id) {
-            fetchOrders();
+        const checkAccessAndFetch = async () => {
+
+            if (loadingUser) {
+                return;
             }
-        }else{
-            swal.fire({
-                title: "Access Denied",
-                text: "You must be logged in to view orders.",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
-            navigate('/');
-        }
-    }, [user]);
+            if (!isLoggedIn || !user || !user._id || !authToken) {
+                swal.fire({
+                    title: "Access Denied",
+                    text: "You need to be logged in to view this page.",
+                    icon: "error",
+                });
+                navigate("/login");
+                return;
+            }
+            fetchOrders();
+        };
+        checkAccessAndFetch();
+    }, [isLoggedIn, loadingUser, user, authToken]);
 
     if (loading) return <LoadingScreen />;
 
@@ -194,7 +201,7 @@ return (
                                         {order.reviewId !== null ? (
                                             <span className="text-green-500 font-bold">Review Submitted</span>
                                         ) : (
-                                            <Link to={`/review/create/${order._id}/${order.gigID?._id}`} className="px-3 py-1 bg-[var(--purple)] text-white rounded hover:bg-[#5452b3]">
+                                            <Link to={`/review/create/${order._id}/${order.gigID?._id}`} target='_blank' className="px-3 py-1 bg-[var(--purple)] text-white rounded hover:bg-[#5452b3]">
                                                 Create Review
                                             </Link>
                                         )}

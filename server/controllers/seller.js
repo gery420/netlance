@@ -39,27 +39,29 @@ exports.Dashboard = async (req, res) => {
     try {
         console.log("\nSeller Dashboard controller called");
         let sellerId = req.user._id;
-        let gigs = await Gig.find({sellerID: sellerId});
+        let gigs = await Gig.find({sellerID: sellerId}).select('title price totalStars');
         let orders = await Order.find({sellerID: sellerId}).populate(
             {
                 path: 'gigID',
                 model: 'Gig',
+                select: 'title price'
             })
             .populate({
                 path: 'buyerID',
                 model: 'Buyer',
                 select: 'username'
-            });
+            }).select('-__v -createdAt -updatedAt -paymentIntentId -sellerID');
         let reviews = await Review.find({
             gigId : {$in: gigs.map(gig => gig._id)}
         }).populate({
             path: 'buyerId',
             model: 'Buyer',
-            select: '-password -__v'
+            select: 'username email profilePicture'
         })
         .populate({
             path: 'gigId',
             model: 'Gig',
+            select: 'title'
         });
 
         return res.status(200).json({

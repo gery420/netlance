@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import swal from "sweetalert2";
@@ -24,8 +24,8 @@ const CreateGig = () => {
     });
 
     const [load , setLoad] = useState(false);
-    const {isLoggedIn, userType} = useContext(UserContext);
-    
+    const {isLoggedIn, userType, authToken} = useContext(UserContext);
+
     useEffect(() => {
         if (!isLoggedIn) {
             swal.fire({
@@ -123,9 +123,9 @@ const CreateGig = () => {
             setLoad(true);
             
             let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/gig/create`, formData, {
-                withCredentials:true,
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${authToken}`
                 }
             })
 

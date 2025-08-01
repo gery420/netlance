@@ -8,16 +8,18 @@ import { Link } from "react-router-dom";
 import Navbar from "../common/Navbar";
 
 const MyGigs = () => {
-    const { userType } = useContext(UserContext);
+    const { userType, user } = useContext(UserContext);
     const [gigs, setGigs] = useState([]);
-    const { isLoggedIn } = useContext(UserContext);
+    const { isLoggedIn, authToken, loadingUser } = useContext(UserContext);
     const [ load, setLoad ] = useState(true);
     const navigate = useNavigate();
     const fetchGigs = async () => {
             try {
                 setLoad(true);
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/`, {
-                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
                 });
                 setGigs(response.data.gigs);
                 setLoad(false);
@@ -27,11 +29,22 @@ const MyGigs = () => {
             }
         };
     useEffect(() => {
-        if (!isLoggedIn) {
-            navigate("/login");
-        } else{
+        const checkAccessAndFetch = async () => {
+            if (loadingUser) {
+                return;   
+            }
+            if (!isLoggedIn || userType !== "seller" || !authToken) {
+                swal.fire({
+                    title: "Access Denied",
+                    text: "You must be logged in as a seller to view this page.",
+                    icon: "error",
+                });
+                navigate("/login");
+                return;
+            } 
             fetchGigs();
-        }     
+        };
+        checkAccessAndFetch();
     }, [isLoggedIn, navigate]);
 
     const handleDelete = async (gigId) => {

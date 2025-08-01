@@ -9,7 +9,7 @@ import Navbar from '../common/Navbar';
 const CreateReview = () => {
     
     const [ load , setLoad ] = useState(false);
-    const { user, isLoggedIn } = useContext(UserContext);
+    const { user, isLoggedIn, authToken, loadingUser, userType } = useContext(UserContext);
     const { orderId, gigId } = useParams();
 
     const navigate = useNavigate();
@@ -27,7 +27,6 @@ const CreateReview = () => {
         });
     }
 
-    
 
     const submitReview = async (e) => {
         e.preventDefault();
@@ -48,7 +47,9 @@ const CreateReview = () => {
                 desc: data.comment,
                 star: data.rating,
             }, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             });
 
             if (response.data.success) {
@@ -79,15 +80,23 @@ const CreateReview = () => {
     }
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            swal.fire({
-                title: "Please Login",
-                text: "You need to be logged in to create a review.",
-                icon: "error",
-            });
-            navigate('/');
+
+        const checkAccess = async () => {
+            if (loadingUser) {
+                return;
+            }
+            if (!isLoggedIn || !user || !authToken || userType !== 'buyer') {
+                swal.fire({
+                    title: "Please Login",
+                    text: "You need to be logged in to create a review.",
+                    icon: "error",
+                }).then(() => {
+                    navigate('/');
+                });
+            }
         }
-    }, [isLoggedIn]);
+        checkAccess();
+    }, [isLoggedIn, navigate]);
 
     return (
         <div className='w-[100dvw] h-[100dvh] bg-[var(--white)] overflow-hidden'>

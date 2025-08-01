@@ -15,24 +15,38 @@ const SingleOrder = () => {
     const [conversation, setConversation] = useState(null);
     const [messages, setMessages] = useState([]);                           
     const [newMessage, setNewMessage] = useState("");     
-    const { user, userType, isLoggedIn } = useContext(UserContext);
+    const { user, userType, isLoggedIn, authToken, loadingUser } = useContext(UserContext);
     const navigate = useNavigate();
 
-    if (!isLoggedIn) {
-        swal.fire({
-            title: "Access Denied",
-            text: "You must be logged in to view this order.",
-            icon: "error",
-            confirmButtonText: "OK"
-        });
-        navigate('/');
-    }
+    
+    useEffect(() => {
+        const checkAccess = async () => {
+            if (loadingUser) {
+                return;
+            }
+            if (!isLoggedIn || !user || !authToken) {
+                swal.fire({
+                    title: 'Access Denied',
+                    text: 'You must be logged in as a buyer to view this order.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                navigate('/');
+                return;
+            }
+            getOrderById();
+        }
+        checkAccess();
+    }, [id, isLoggedIn, userType, authToken, loadingUser, navigate]);
+
 
     const getOrderById = async () => {
         try {
             setLoading(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/${id}`, {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             });
             setOrder(response.data.data.order);
             setLoading(false);
@@ -44,13 +58,17 @@ const SingleOrder = () => {
     }
     const getConversation = async () => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/chat/conversation/${id}`, {
-            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
         });
         setConversation(res.data.conversation);
     };  
     const fetchMessages = async (conversationId) => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/chat/message/${conversationId}`, {
-            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
         });
         setMessages(res.data.messages);
     };
@@ -60,20 +78,20 @@ const SingleOrder = () => {
         await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/chat/message/${conversation._id}`,
             {
-            senderType: userType,
-            senderId: user._id,
-            text: newMessage,
+                senderType: userType,
+                senderId: user._id,
+                text: newMessage,
             },
-            { withCredentials: true }
+            {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
         );
 
         setNewMessage("");
         fetchMessages(conversation._id);
     };
-
-    useEffect(() => {
-        getOrderById();
-    }, [id]);
 
     useEffect(() => {
         if (order) {
@@ -98,8 +116,12 @@ const SingleOrder = () => {
 
     if (loading) return <LoadingScreen />;
     if (!order) {
-        navigate('/orders');
-        return <div className="text-center mt-20 text-xl font-bold">Order not found.</div>;
+        return (
+             <>
+                <Navbar />
+                <div className="w-full h-screen flex items-center justify-center">Invalid Order</div>
+            </>
+        );
     }
 
     return (

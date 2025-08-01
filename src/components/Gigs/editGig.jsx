@@ -1,7 +1,6 @@
 import Navbar from '../common/Navbar';
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert2';
 import { UserContext } from '../../context/UserContext';
@@ -13,7 +12,7 @@ const EditGig = () => {
     const [loading, setLoading] = useState(true);
     const [load, setLoad] = useState(false);
     const navigate = useNavigate();
-    const { isLoggedIn, userType } = useContext(UserContext);
+    const { isLoggedIn, userType, authToken, loadingUser } = useContext(UserContext);
 
     const [title, setTitle] = useState('');
     const [shortTitle, setShortTitle] = useState('');
@@ -27,53 +26,60 @@ const EditGig = () => {
     const [coverPreview, setCoverPreview] = useState('');
     const [features, setfeatures] = useState([]);
 
-    if (!isLoggedIn) {
-        swal.fire({
-            title: "Access Denied",
-            text: "You must be logged in to edit a gig.",
-            icon: "error",
-            confirmButtonText: "OK"
-        });
-        navigate('/login');
-    }
-
+    
     useEffect(() => {
-        const fetchGig = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/${id}`);
-                if (!response.data.success) {
-                    swal.fire({
-                        title: 'Error',
-                        text: response.data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-                const g = response.data.gig;
-                setGig(g);
-                setTitle(g.title);
-                setShortTitle(g.shortTitle);
-                setPrice(g.price);
-                setDesc(g.desc);
-                setDeliveryTime(g.deliveryTime);
-                setRevisionNumber(g.revisionNumber);
-                setShortDesc(g.shortDesc);
-                setfeatures(Array.isArray(g.features) ? g.features : []);
-                setCover(null);
-                setCoverPreview(g.cover);
-                setCategory(g.category);
-                setLoading(false);
-                console.log(response.data);
-            } catch (error) {
-                console.error('Error fetching gig:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        fetchGig();
-    }, [id]);
+        const checkAccess = async () => {
+            if (loadingUser) return; // Wait until user data is loaded
+            if (userType !== 'seller' || !authToken || !isLoggedIn) {
+                swal.fire({
+                    title: "Access Denied",
+                    text: "You do not have permission to edit gigs.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+                navigate('/gig');
+                return;
+            }
+            const fetchGig = async () => {
+                try {
+                    setLoading(true);
+                    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/${id}`);
+                    if (!response.data.success) {
+                        swal.fire({
+                            title: 'Error',
+                            text: response.data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                    const g = response.data.gig;
+                    setGig(g);
+                    setTitle(g.title);
+                    setShortTitle(g.shortTitle);
+                    setPrice(g.price);
+                    setDesc(g.desc);
+                    setDeliveryTime(g.deliveryTime);
+                    setRevisionNumber(g.revisionNumber);
+                    setShortDesc(g.shortDesc);
+                    setfeatures(Array.isArray(g.features) ? g.features : []);
+                    setCover(null);
+                    setCoverPreview(g.cover);
+                    setCategory(g.category);
+                    setLoading(false);
+                    console.log(response.data);
+                } catch (error) {
+                    console.error('Error fetching gig:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchGig();
+        }
+        checkAccess();
+    
+    }, [id, loadingUser, userType, authToken, isLoggedIn, navigate]);
+    
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen">Loading...</div>;
@@ -102,9 +108,9 @@ const EditGig = () => {
 
             let response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/gig/update/${id}`, formdata, {
                 headers: {
+                    Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'multipart/form-data',
-                },
-                withCredentials: true,
+                }
             });
             if (response.data.success) {
                 swal.fire({
