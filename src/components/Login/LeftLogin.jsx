@@ -11,7 +11,7 @@ const LeftLogin = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (isLoggedIn) {
-            navigate("/home");
+            navigate("/");
         }
     }, []);
 
@@ -65,7 +65,7 @@ const LeftLogin = () => {
                     icon: "success",
                 });
                 console.log("Login response:", res.data);
-                navigate("/home");
+                navigate("/");
             }
             setload(false);
 

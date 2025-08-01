@@ -12,7 +12,7 @@ const Landing = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/home');
+            navigate('/');
         }
     }, [isLoggedIn]);
 

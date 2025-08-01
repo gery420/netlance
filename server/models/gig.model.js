@@ -19,7 +19,7 @@ const gigSchema = new Schema({
     },
     category: {
         type: String,
-        required: false,
+        required: true,
     },
     cover: {
         type: String,

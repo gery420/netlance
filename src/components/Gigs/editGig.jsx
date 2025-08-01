@@ -23,7 +23,8 @@ const EditGig = () => {
     const [revisionNumber, setRevisionNumber] = useState('');
     const [shortDesc, setShortDesc] = useState('');
     const [cover, setCover] = useState('');
-    const [ coverPreview, setCoverPreview ] = useState('');
+    const [category, setCategory] = useState('');
+    const [coverPreview, setCoverPreview] = useState('');
     const [features, setfeatures] = useState([]);
 
     if (!isLoggedIn) {
@@ -61,6 +62,7 @@ const EditGig = () => {
                 setfeatures(Array.isArray(g.features) ? g.features : []);
                 setCover(null);
                 setCoverPreview(g.cover);
+                setCategory(g.category);
                 setLoading(false);
                 console.log(response.data);
             } catch (error) {
@@ -90,6 +92,7 @@ const EditGig = () => {
             formdata.append('deliveryTime', deliveryTime);
             formdata.append('revisionNumber', revisionNumber);
             formdata.append('shortDesc', shortDesc);
+            formdata.append('category', category);
             features.forEach((feature) => {
                 formdata.append(`features`, feature);
             });
@@ -201,6 +204,28 @@ const EditGig = () => {
                                     }
                                 }} className="border mt-2 rounded-xl p-2 w-full" />
                             </div>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2 font-semibold text-lg">Category:</label>
+                                <select name='category' value={category} onChange={(e) => setCategory(e.target.value)} className="border mt-2 rounded-xl p-3 w-full">
+                                    <option value="" className="p-3">Select a category</option>
+                                    <option value="webDevelopment">Web Development</option>
+                                    <option value="mobileAppDevelopment">Mobile App Development</option>
+                                    <option value="softwareDevelopment">Software Development</option>
+                                    <option value="graphicDesign">Graphic Design</option>
+                                    <option value="logoDesign">Logo Design</option>
+                                    <option value="uiUxDesign">UI/UX Design</option>
+                                    <option value="videoEditing">Video Editing</option>
+                                    <option value="musicProduction">Music Production</option>
+                                    <option value="photography">Photography</option>
+                                    <option value="photoEditing">Photo Editing</option>
+                                    <option value="digitalMarketing">Digital Marketing</option>
+                                    <option value="contentWriting">Content Writing</option>
+                                    <option value="dataScience">Data Science</option>                                    
+                                    <option value="translation">Translation</option>                                    
+                                    <option value="dataEntry">Data Entry</option>
+                                    <option value="other">Other</option>
+                                </select>
                         </div>
                         <div className="mb-4 w-full">
                             <label className="block mb-2 font-semibold text-lg">Features:</label>

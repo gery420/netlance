@@ -4,7 +4,6 @@ import {Route, BrowserRouter, Routes} from 'react-router-dom';
 
 //Common
 import Landing from './pages/Landing.jsx';
-import Home from './pages/Home.jsx';
 
 import ForgotPasswordWithOTP from './pages/ForgotPassword.jsx';
 
@@ -35,6 +34,8 @@ import Explore from './pages/Explore.jsx';
 
 import Dashboard from './pages/SellerDashBoard.jsx';
 
+import Query from './pages/Query.jsx';
+
 function App() {
   return (
     <>
@@ -45,8 +46,6 @@ function App() {
           <Routes>
 
             <Route exact path="/" element={<Landing />} />
-
-            <Route exact path="/home" element={<Home />} />
 
             <Route exact path="/signup" element={<SignUp />} />
 
@@ -75,6 +74,8 @@ function App() {
             <Route exact path="/review/create/:orderId/:gigId" element={<CreateReview />} />
 
             <Route exact path="/dashboard" element={<Dashboard />} />
+
+            <Route exact path="/search" element={<Query />} />
 
           </Routes>
 

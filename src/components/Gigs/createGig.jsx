@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import swal from "sweetalert2";
 import { UserContext } from "../../context/UserContext";
-import LoadingScreen from "../common/loading";
 import Navbar from "../common/Navbar"
 
 const CreateGig = () => {
@@ -21,6 +20,7 @@ const CreateGig = () => {
         cover: "",
         images: [],
         features: [""],
+        category: ""
     });
 
     const [load , setLoad] = useState(false);
@@ -112,6 +112,7 @@ const CreateGig = () => {
             formData.append("deliveryTime", data.deliveryTime);
             formData.append("revisionNumber", data.revisionNumber);
             formData.append("cover", data.cover);
+            formData.append("category", data.category);
             data.images.forEach((image, index) => {
                 formData.append("images", image);
             });
@@ -141,6 +142,7 @@ const CreateGig = () => {
                 cover: null,
                 images: [],
                 features: [""],
+                category: ""
             });
 
             if (res.data.success) {
@@ -186,9 +188,33 @@ const CreateGig = () => {
                         <label htmlFor="desc" className="w-[100%]">Description:
                             <input type="text" name="desc" placeholder="Enter description" required onChange={handleChange} className=" mt-1 w-[100%] h-[10dvh] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
                         </label>
-                        <label htmlFor="shortDesc" className="w-[100%]">Short Description:
-                            <input type="text" name="shortDesc" placeholder="Enter short description" required onChange={handleChange} className=" mt-1 w-[100%] h-[5dvh] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
-                        </label>
+                        <div className="w-[100%] h-[100%] flex flex-row gap-10">
+                            <label htmlFor="shortDesc" className="w-[100%]">Short Description:
+                                <input type="text" name="shortDesc" placeholder="Enter short description" required onChange={handleChange} className=" mt-1 w-[100%] h-[5dvh] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            </label>
+                            <label className="w-[100%]">Select Category:
+                                <select name="category" onChange={handleChange} required className=" mt-1 w-[100%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl">
+                                    <option value="" className="rounded-xl p-3">Select a category</option>
+                                    <option value="webDevelopment">Web Development</option>
+                                    <option value="mobileAppDevelopment">Mobile App Development</option>
+                                    <option value="softwareDevelopment">Software Development</option>
+                                    <option value="graphicDesign">Graphic Design</option>
+                                    <option value="logoDesign">Logo Design</option>
+                                    <option value="uiUxDesign">UI/UX Design</option>
+                                    <option value="videoEditing">Video Editing</option>
+                                    <option value="musicProduction">Music Production</option>
+                                    <option value="photography">Photography</option>
+                                    <option value="photoEditing">Photo Editing</option>
+                                    <option value="digitalMarketing">Digital Marketing</option>
+                                    <option value="contentWriting">Content Writing</option>
+                                    <option value="dataScience">Data Science</option>                                    
+                                    <option value="translation">Translation</option>                                    
+                                    <option value="dataEntry">Data Entry</option>
+                                    <option value="other">Other</option>
+
+                                </select>
+                            </label>
+                        </div>
                         </div>
                         <div className="flex w-[100%] h-[100%] flex-row gap-10 items-start justify-between">
                             <label htmlFor="price" className="w-[30%] ">Price:

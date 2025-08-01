@@ -13,7 +13,7 @@ exports.CreateGig = async (req, res) => {
     
     try {
         console.log("\nCreate Gig controller called");
-        const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber, features } = req.body;
+        const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber, features, category } = req.body;
 
         let parsedFeatures = [];
         if (features) {
@@ -29,6 +29,7 @@ exports.CreateGig = async (req, res) => {
             price,
             deliveryTime,
             revisionNumber,
+            category,
             features: parsedFeatures,
             cover: req.files.cover?.[0]?.path,
             images: req.files.images?.map((img) => img.path) || [],
@@ -106,7 +107,7 @@ exports.GetAllGigs = async (req, res) => {
                     sellerUserName: seller ? seller.username : 'Unknown Seller'
                 }
             })
-        ); // Assuming you have a seller model with a name field;
+        ); 
         return res.status(200).json({
             message: "All gigs fetched successfully",
             success: true,
@@ -169,7 +170,7 @@ exports.UpdateGig = async (req, res) => {
 
         console.log("Seller found:", sellerCheck);
 
-        const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber } = req.body;
+        const { title, shortTitle, desc, shortDesc, price, deliveryTime, revisionNumber, category } = req.body;
 
         let features = req.body.features;
 
@@ -185,6 +186,7 @@ exports.UpdateGig = async (req, res) => {
             ...(price && { price }),
             ...(deliveryTime && { deliveryTime }),
             ...(revisionNumber && { revisionNumber }),
+            ...(category && { category }),
             ...(features && { features }),
         };
 
@@ -207,6 +209,63 @@ exports.UpdateGig = async (req, res) => {
         });
     } catch (error) {
         console.error("Error updating gig:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false,
+            error: error.message
+        });
+    }
+}
+
+exports.GetGigsByQuery = async (req, res) => {
+    const query = req.query.query;
+    if (!query) {
+        return res.status(400).json({
+            message: "Query parameter is required",
+            success: false
+        });
+    }
+
+    const searchRegex = new RegExp(query, 'i'); 
+
+    console.log("Searching for gigs with query:", query);
+    
+    const gigs = await Gig.find({
+        $or: [
+            { title: { $regex: searchRegex } },
+            { shortTitle: { $regex: searchRegex } },
+            { category: { $regex: searchRegex } }
+        ]
+    });
+
+    if (!gigs || gigs.length === 0) {
+        console.log("No gigs found for query:", query);
+        return res.status(404).json({
+            message: "No gigs found",
+            success: false
+        });
+    }
+    try {
+        
+        const sellerUserName = await Promise.all(
+            gigs.map( async (gig) => {
+                const seller = await Seller.findById(gig.sellerID, 'username');
+                return {
+                    ...gig._doc,
+                    sellerUserName: seller ? seller.username : 'Unknown Seller'
+                }
+            })
+        ); 
+
+        console.log("Gigs found:", gigs.length);
+
+        return res.status(200).json({
+            message: "Gigs fetched successfully",
+            success: true,
+            gigs: sellerUserName
+        });
+    } catch (error) {
+        console.error("Error fetching gigs by query:", error);
         return res.status(500).json({
             message: "Internal server error",
             success: false,

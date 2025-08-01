@@ -146,8 +146,9 @@ const SingleGig = () => {
             <div className="w-[100%] h-[100%] p-10 flex flex-row items-start justify-start">
                 <div className="flex flex-col items-start justify-start w-[70%]">
                     <div className="flex flex-row items-center justify-between w-full mb-4">
-                        <Link to="/explore"> &lt;-- Go Back</Link>
+                        <span><Link to='/explore'> &lt;-- Back /</Link> {gig.category.toLowerCase()}</span>
                     </div>
+
                     <div className="flex flex-col items-start justify-start">
                         <h1 className="text-4xl font-bold">{gig.title}</h1>
                         <h2 className="text-xl mt-2"><span className="text-lg font-normal">Seller:</span> {gig.sellerUserName}</h2>
