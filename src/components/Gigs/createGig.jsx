@@ -34,7 +34,7 @@ const CreateGig = () => {
                 icon: "error",
                 confirmButtonText: "OK"
             });
-            navigate("/login");
+            navigate("/");
         }
     });
     if (userType !== "seller") {
@@ -123,6 +123,7 @@ const CreateGig = () => {
             setLoad(true);
             
             let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/gig/create`, formData, {
+                withCredentials: true,
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${authToken}`
@@ -186,7 +187,7 @@ const CreateGig = () => {
                         </div>
                         <div className="flex w-[100%] h-[100%] flex-col gap-10 items-start justify-start">
                         <label htmlFor="desc" className="w-[100%]">Description:
-                            <input type="text" name="desc" placeholder="Enter description" required onChange={handleChange} className=" mt-1 w-[100%] h-[10dvh] p-3 border-solid border-2 border-[var(--black)] rounded-2xl" />
+                            <textarea type="text" name="desc" placeholder="Enter description" required onChange={handleChange} className=" mt-1 w-[100%] h-[10dvh] p-3 border-solid border-2 border-[var(--black)] rounded-2xl"></textarea>
                         </label>
                         <div className="w-[100%] h-[100%] flex flex-row gap-10">
                             <label htmlFor="shortDesc" className="w-[100%]">Short Description:

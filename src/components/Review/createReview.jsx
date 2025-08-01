@@ -47,6 +47,7 @@ const CreateReview = () => {
                 desc: data.comment,
                 star: data.rating,
             }, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

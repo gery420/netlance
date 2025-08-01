@@ -26,6 +26,7 @@ const Order = () => {
             : `/order/seller/${user.id}`;
 
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, {
+            withCredentials: true,
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -45,6 +46,7 @@ const Order = () => {
         const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
             status: newStatus,
         }, {
+            withCredentials: true,
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

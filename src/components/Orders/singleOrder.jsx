@@ -44,6 +44,7 @@ const SingleOrder = () => {
         try {
             setLoading(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/${id}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -58,6 +59,7 @@ const SingleOrder = () => {
     }
     const getConversation = async () => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/chat/conversation/${id}`, {
+            withCredentials: true,
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -66,6 +68,7 @@ const SingleOrder = () => {
     };  
     const fetchMessages = async (conversationId) => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/chat/message/${conversationId}`, {
+            withCredentials: true,
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -83,6 +86,7 @@ const SingleOrder = () => {
                 text: newMessage,
             },
             {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

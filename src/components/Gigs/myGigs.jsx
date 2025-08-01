@@ -17,6 +17,7 @@ const MyGigs = () => {
             try {
                 setLoad(true);
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/`, {
+                    withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
@@ -49,18 +50,57 @@ const MyGigs = () => {
 
     const handleDelete = async (gigId) => {
         try {
-            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/gig/${gigId}`, {
-                withCredentials: true,
-            });
-            if (response.data.success) {
-                fetchGigs(); // Refresh the gigs list
-                swal.fire({
-                    title: "Gig Deleted",
-                    text: "Your gig has been successfully deleted.",
-                    icon: "success",
-                    confirmButtonText: "OK",
-                });
-            }
+
+            swal.fire({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this gig!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#EC1E27",
+                cancelButtonColor: "#6665DD",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const { value: username } = await swal.fire({
+                        title: `Type your username ${user.username} to delete this gig`,
+                        input: "text",
+                        inputPlaceholder: `Enter your username to confirm`,
+                        showCancelButton: true,
+                        confirmButtonText: "Submit",
+                        cancelButtonText: "Cancel",
+                    })
+                    if (username === user.username) {
+                        const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/gig/${gigId}`, {
+                            withCredentials: true,
+                        });
+                        if (response.data.success) {
+                            fetchGigs();
+                            swal.fire({
+                                title: "Gig Deleted",
+                                text: "Your gig has been successfully deleted.",
+                                icon: "success",
+                                confirmButtonText: "OK",
+                            });
+                        }
+                    } else {
+                        swal.fire({
+                            title: "Failed",
+                            text: "Gig deletion failed.",
+                            icon: "info",
+                            confirmButtonText: "OK",
+                        });
+                    }
+                } else {
+                    swal.fire({
+                        title: "Cancelled",
+                        text: "Your gig is safe :)",
+                        icon: "info",
+                        confirmButtonText: "OK",
+                    });
+                }
+            })
+
         } catch (error) {
             console.error("Error deleting gig:", error);
             swal.fire({

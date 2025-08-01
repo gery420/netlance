@@ -39,6 +39,7 @@ const Form = ({profile}) => {
         try{
             setLoad(true);
             let resp = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/logoutUser/`, { 
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
@@ -88,6 +89,7 @@ const Form = ({profile}) => {
 
             setLoading(true);
             let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/resetPassword/`, { newPassword }, { 
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -127,6 +129,7 @@ const Form = ({profile}) => {
             }
 
             let resp = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/updateProfile/`, formData, {
+                withCredentials: true,
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${authToken}`,

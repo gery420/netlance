@@ -55,7 +55,9 @@ const LeftLogin = () => {
 
             setload(true);
 
-            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/loginUser/`, postData);
+            let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/loginUser/`, postData, {
+                withCredentials: true,
+            });
 
             const { accessToken, user, userType } = res.data;
             console.log("Login response:", res.data.accessToken);

@@ -20,6 +20,7 @@ const PaymentSuccess = () => {
 			gigId,
 			buyerId
 			}, {
+				withCredentials: true,
 				headers: {
 					Authorization: `Bearer ${authToken}`
 				}

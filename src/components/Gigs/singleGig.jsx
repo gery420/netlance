@@ -22,6 +22,7 @@ const SingleGig = () => {
         try {
             setLoading(true);
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/gig/${id}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -78,6 +79,7 @@ const SingleGig = () => {
                 gigId: gig._id,
                 buyerId: user._id,
             }, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -109,7 +111,7 @@ const SingleGig = () => {
     const getReviews = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/review/view/${gig._id}`, {
-               
+                withCredentials: true,
             });
             setReviews(response.data.reviews);
             return response.data.reviews;
@@ -131,6 +133,7 @@ const SingleGig = () => {
                 return;
             }
             await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/review/delete/${reviewId}`, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

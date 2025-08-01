@@ -107,6 +107,7 @@ const EditGig = () => {
             }
 
             let response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/gig/update/${id}`, formdata, {
+                withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'multipart/form-data',

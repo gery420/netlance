@@ -35,9 +35,10 @@ useEffect(() => {
             try {
                 setLoading(true);
                 const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/seller/dashboard`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    },
+                    withCredentials: true
                 });
                 setDashboardData(res.data.data);
                 setLoading(false);
