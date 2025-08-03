@@ -60,6 +60,8 @@ exports.Login = async (req, res, next) => {
                 message: "Incorrect Credentials",
             });      
         } 
+        console.log("User found:", user._id);
+        console.log("User type:", user.type);
         const accessToken = await createAccessToken(user._id, user.type);
         const refreshToken = await createRefreshToken(user._id, user.type);
 
