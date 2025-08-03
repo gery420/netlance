@@ -235,12 +235,27 @@ const SingleGig = () => {
                     
 
                         <div className="w-[100%] relative flex flex-col items-center justify-center mt-4">
-                            <button 
-                                onClick={handleBuy} 
-                                className={`mt-10 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"} duration-300`}
-                            >
-                                {loading ? "Processing..." : "Buy Now"}
-                            </button>
+                            {isLoggedIn && user._id === gig.sellerID ? (
+                                <div className="w-full flex flex-col items-center justify-center">
+                                    <p className="text-red-300">You cannot buy your own gig.</p>
+                                    <button 
+                                        disabled={true}
+                                        className={`mt-4 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition opacity-45 text-[var(--white)] cursor-not-allowed hover:bg-[var(--purple)] duration-300`}
+                                        >
+                                        Buy Now
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="w-full flex flex-col items-center justify-center">
+                                    <p className="text-gray-400">Click the button below to buy this gig.</p>
+                                    <button 
+                                        onClick={handleBuy} 
+                                        className={` mt-4 bg-[var(--purple)] text-white px-4 py-2 rounded-xl transition ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"} duration-300`}
+                                        >
+                                        {loading ? "Processing..." : "Buy Now"}
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                     
