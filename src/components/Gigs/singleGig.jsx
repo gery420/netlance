@@ -28,6 +28,7 @@ const SingleGig = () => {
                 }
             });
             setGig(response.data.gig);
+            setLoading(false);
         } catch (error) {
             setGig(null);
             console.error("Error fetching gig by ID:", error);
@@ -196,9 +197,9 @@ const SingleGig = () => {
                                         <span className="text-gray-500 text-sm">({review.star} stars)</span>
                                     </div>
                                     <div>
-                                        {user._id === review.buyerId?._id ? (
-                                            <button onClick={() => deleteReview(review._id)} className="text-red-500 hover:underline text-sm">Delete</button>
-                                        ) : null}
+                                        {isLoggedIn && user._id===review.buyerId?._id && (
+                                            <button onClick={() => deleteReview(review._id)} className="text-red-500 hover:underline text-sm">Delete</button>  
+                                        )}                                        
                                     </div>
                                 </div>
                                 <div className="mt-2">
