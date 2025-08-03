@@ -92,7 +92,6 @@ exports.Login = async (req, res, next) => {
 exports.Logout = async (req, res, next) => {
     try {
         console.log("Logout called");
-        res.clearCookie("s_Id");
         res.status(200).json({
         success: true,
         message: "You are logged out successfully!",

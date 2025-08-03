@@ -6,7 +6,7 @@ import swal from "sweetalert2";
 
 const Form = ({profile}) => {
 
-    const { isLoggedIn, setLoginStatus, authToken } = useContext(UserContext);
+    const { isLoggedIn, setLoginStatus, authToken, setAuthToken, setUser } = useContext(UserContext);
     useEffect(() => {
         console.log("Profile data:", profile);
     }, [isLoggedIn]);
@@ -44,6 +44,10 @@ const Form = ({profile}) => {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
+            localStorage.removeItem("authToken");
+            setAuthToken("");
+            setUser(null);
+            setLoginStatus(false);
             if (resp.data.success) {
                 setLoginStatus(false);
                 swal.fire({
