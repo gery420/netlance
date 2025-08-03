@@ -8,7 +8,7 @@ const Gig = () => {
 
     return (
         <> 
-        <div className=" flex-col flex mt-[10dvh]">
+        <div className=" flex-col flex">
             <MyGigs />  
         </div>
         </>

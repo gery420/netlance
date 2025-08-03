@@ -127,7 +127,7 @@ const MyGigs = () => {
     }
 
     return (
-        <div className=" p-6 flex flex-col items-center justify-center">
+        <div className=" p-6 flex flex-col mt-[10dvh] items-center justify-center">
             <Navbar />
             <div className="w-full h-[15dvh] top-[10dvh] flex flex-row justify-between items-center">
                 <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Your Gigs</h1>
