@@ -43,17 +43,32 @@ const Order = () => {
 
     const updateOrderStatus = async (orderId, newStatus) => {
         try {
-        const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
-            status: newStatus,
-        }, {
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        });
-
-        swal.fire("Updated", `Order status changed to ${newStatus}`, "success");
-        fetchOrders(); // Refresh list
+            swal.fire({
+                title: "Are you sure?",
+                text: `Do you want to change the order status to ${newStatus}?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#6665DD",
+                cancelButtonColor: "#ec1e27",
+                confirmButtonText: "Yes, update it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true,
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const res = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/order/${orderId}/status`, {
+                        status: newStatus,
+                    }, {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    swal.fire("Updated", `Order status changed to ${newStatus}`, "success");
+                    fetchOrders(); // Refresh list
+                } else {
+                    swal.fire("Cancelled", "Order status update cancelled", "info");
+                }
+            });
         } catch (err) {
         swal.fire("Error", "Could not update order status", "error");
         }
@@ -82,36 +97,36 @@ const Order = () => {
     if (loading) return <LoadingScreen />;
 
 return (
-    <div >
+    <div>
         <Navbar />
-        <div className='w-full flex flex-col items-center justify-center mt-36'>
+        <div className='w-[100dvw] flex flex-col items-center justify-center sm:mt-36 mt-48'>
             {orders.length === 0 ? (
                 <h1 className="text-2xl font-bold">No Orders Found</h1>
             ) : (
-            <div className="flex flex-col items-center size-full">
-                <h1 className="text-3xl w-[70%] font-bold text-left">{userType === 'buyer' ? 'Your Purchases' : 'Your Orders'}</h1>
+            <div className="flex flex-col items-center justify-center w-full">
+                <h1 className="text-3xl w-[70%] font-bold">{userType === 'buyer' ? 'Your Purchases' : 'Your Orders'}</h1>
                 {userType === 'seller' && (
-                    <div className=" w-[70%] flex flex-row gap-8 justify-start  mt-4">
-                        <p className="text-gray-500 text-left mt-2">
+                    <div className=" sm:w-[70%] w-full flex flex-row flex-wrap sm:gap-8 text-sm sm:text-md justify-start mt-4">
+                        <p className="text-gray-500 sm:px-0 px-4 text-left mt-2">
                             Total Orders: <span className="font-bold">{orders.length}</span>
                         </p>
-                        <p className="text-gray-500 text-left mt-2">
+                        <p className="text-gray-500 sm:px-0 px-4 text-left mt-2">
                             Completed: <span className="font-bold">{orders.filter(order => order.status === 'completed').length}</span>
                         </p>
-                        <p className="text-gray-500 text-left mt-2">
+                        <p className="text-gray-500 sm:px-0 px-4 text-left mt-2">
                             In Progress: <span className="font-bold">{orders.filter(order => order.status === 'in-progress').length}</span>
                         </p>
-                        <p className="text-gray-500 text-left mt-2">
+                        <p className="text-gray-500 sm:px-0 px-4 text-left mt-2">
                             Cancelled: <span className="font-bold">{orders.filter(order => order.status === 'cancelled').length}</span>
                         </p>
                     </div>
                 )}
-                <div className='w-[70%] flex justify-start flex-row gap-8 items-start mt-6'>
+                <div className='w-full sm:w-[70%] justify-center items-center gap-4 flex sm:justify-start flex-row sm:gap-4 flex-wrap sm:items-start mt-6'>
                     {['all', 'in-progress', 'completed', 'cancelled'].map((status) => (
                         <button
                             key={status}
                             onClick={() => setFilter(status)}
-                            className={`${filter === status ? 'text-black' : 'text-gray-400'}`}
+                            className={`${filter === status ? 'text-black' : 'text-gray-400'} text-sm sm:text-md lg:text-lg`}
                         >
                             {status.charAt(0).toUpperCase() + status.slice(1)}
                         </button>
@@ -124,7 +139,7 @@ return (
                     </div>
                 )}
 
-                <div className="flex flex-col-reverse w-[70%] mt-10 mb-10 gap-6">
+                <div className="flex flex-col-reverse w-full sm:w-[70%] mt-10 mb-10 gap-6">
                     {filteredOrders.map((order) => (    
                     <div key={order._id} className={`p-6 border rounded-xl shadow-[27px_27px_69px_rgb(219,215,219)] flex flex-col md:flex-row justify-between items-start md:items-center ${order.status === 'cancelled' ? 'bg-zinc-200' : 'bg-white'}`}>
                         <div className="flex flex-col">

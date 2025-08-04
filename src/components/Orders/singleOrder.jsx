@@ -131,17 +131,17 @@ const SingleOrder = () => {
     return (
         <div className=' flex flex-col items-center justify-center'>
             <Navbar />
-            <div className="w-[90dvw] h-fit flex flex-col gap-10 mt-[15dvh] items-center justify-center">
+            <div className="w-[100dvw] p-9 h-fit flex flex-col gap-10 mt-[25dvh] md:mt-[15dvh] items-center justify-center">
                 <div className="w-[100%] mb-4">
                     <div >
                         <Link to={`/orders`}> &lt;- Back</Link>
                     </div>
-                    <h1 className="text-3xl font-bold">Your Order:
+                    <h1 className="text-[1.2rem] mt-2 font-bold">Your Order:<br/>
                         <span className="font-normal"> {order._id}</span>
                     </h1>
                 </div>
-                <div className='w-[80%] h-[60%] flex flex-col justify-end items-end '>
-                    <div className="bg-white rounded-2xl relative flex flex-col justify-center items-center shadow-[27px_27px_69px_rgb(219,215,219)] gap-10 w-[90%] h-[100%] p-10">
+                <div className='w-[100%] h-[60%] flex flex-col justify-end items-end '>
+                    <div className="bg-white rounded-2xl relative flex flex-col justify-center items-center shadow-[27px_27px_69px_rgb(219,215,219)] gap-10 w-[100%] h-[100%] p-10">
                         <p className='w-[100%] font-thin'>Buyer: 
                             <span className='font-semibold font-Nunito text-xl'> {order.buyerID?.username}</span>
                         </p>
@@ -159,7 +159,7 @@ const SingleOrder = () => {
                         </p>
                     </div>
                 </div>
-                <div className='w-[20%] h-[60%] flex flex-col justify-end items-end '>
+                <div className='w-[100%] md:w-[20%] h-[60%] flex flex-col justify-end items-end '>
                     <div className="bg-white rounded-2xl relative flex flex-row justify-center items-center shadow-[27px_27px_69px_rgb(219,215,219)] gap-1 w-[100%] h-[100%] p-10">
                     Chat with 
                     <span className='font-bold text-lg'>{userType === "buyer" ? order.sellerID?.username : order.buyerID?.username}</span>
@@ -172,13 +172,13 @@ const SingleOrder = () => {
                         <div className='w-[100%] h-[50vh] flex justify-start items-start p-4'>
                             {conversation && (
                                 <div className='w-[100%] h-[100%] flex justify-start'>
-                                    <div className="w-[100%] h-[90%] p-4 rounded">
-                                        <div className="h-[100%] overflow-y-scroll">
+                                    <div className="w-[100%] h-[90%] p-2 rounded">
+                                        <div className="h-[100%] w-full overflow-y-scroll">
                                             {messages.map((msg, idx) => (
                                                 <div
                                                 key={idx}
-                                                className={`mb-2 p-4 rounded-xl w-fit ${
-                                                    msg.senderType === userType ? " border-2 border-[#000000c6] ml-auto mr-4 text-right" : "bg-gray-200"
+                                                className={`mb-2 md:p-4 p-1 rounded-xl md:w-fit w-3/4 ${
+                                                    msg.senderType === userType ? " border-2 border-[#000000c6] ml-auto text-right" : "bg-gray-200"
                                                 }`}
                                                 >
                                                     <p>{msg.text}</p>
@@ -192,12 +192,12 @@ const SingleOrder = () => {
                                             Chat disabled. This order has been marked as <strong>{order.status}</strong>.
                                         </div>
                                         ) : (
-                                        <div className="flex gap-2">
+                                        <div className="flex justify-center gap-2">
                                             <input
                                             type="text"
                                             value={newMessage}
                                             onChange={(e) => setNewMessage(e.target.value)}
-                                            className="flex-1 border p-3 rounded-xl"
+                                            className=" border w-full p-3 rounded-xl"
                                             placeholder="Type your message"
                                             />
                                             <button

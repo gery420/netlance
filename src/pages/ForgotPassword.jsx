@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import swal from "sweetalert2";
 import { useNavigate , Link} from "react-router-dom";
+import Navbar from "../components/common/Navbar";
 
 export default function ForgotPasswordWithOTP() {
 	
@@ -98,70 +99,73 @@ export default function ForgotPasswordWithOTP() {
 	};
 
 	return (
-		<div className="w-[100dvw] h-[100dvh] flex items-center justify-center flex-col">
-            <div className="w-[30%] relative h-[40%] bg-white p-5 rounded-lg shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] flex flex-col items-center justify-center">
-                
-                <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
-                        <Link to="/login" className="text-[var(--black)] text-md ml-9">←Back</Link>
-                </div>
-                
-                <h2 className="absolute text-xl font-Nunito font-thin top-12">Password Reset</h2>
+		<div>
+            <Navbar />
+            <div className="w-[100%] h-[100dvh] bg-[var(--purple)] flex items-center justify-center">
+                <div className="w-[100%] sm:w-[30%] mt-[10dvh] relative h-[40%] bg-white p-5 rounded-lg shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] flex flex-col items-center justify-center">
+                    
+                    <div className="w-[100%] top-0 mb-2 flex items-start justify-start">
+                            <Link to="/login" className="text-[var(--black)] text-md">←Back</Link>
+                    </div>
+                    
+                    <h2 className=" mt-2 text-xl font-Nunito font-thin top-12">Password Reset</h2>
 
-                    {!otpSent && (
-                        <div className="w-full h-[80%] mt-10 flex flex-col items-center justify-center">
-                            <label htmlFor="email" className="w-[70%] mb-10 mt-10" > Email:
-                                <input
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    className="w-full h-[50%] p-3 border-solid border-2 mb-4 border-[var(--black)] rounded-2xl mt-2"
-                                    />
-                            </label>
-                            <button onClick={sendOtp} disabled={loading} className={`min-w-[30%] h-[15%] border-solid border-2 border-[var(--black)] rounded-2xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
-                                {loading ? "Sending OTP..." : "Send OTP"}
+                        {!otpSent && (
+                            <div className="w-full h-[80%] flex flex-col items-center justify-center">
+                                <label htmlFor="email" className="sm:w-[80%] w-[100%] mb-10" > Email:
+                                    <input
+                                        placeholder="Email"
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        className="w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl mt-2"
+                                        />
+                                </label>
+                                <button onClick={sendOtp} disabled={loading} className={`sm:w-[30%] w-[40%] sm:h-[15%] h-[20%] border-solid border-2 border-[var(--black)] rounded-2xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
+                                    {loading ? "Sending OTP..." : "Send OTP"}
+                                </button>
+                            </div>
+                        )}
+
+                        {otpSent && !otpVerified && (
+                            <div className="w-full h-[80%] flex flex-col items-center justify-center">
+                                <label htmlFor="otp" className="sm:w-[80%] w-[100%] mb-10">Enter OTP:
+                                    <input
+                                        placeholder="Enter OTP"
+                                        value={otp}
+                                        onChange={e => setOtp(e.target.value)}
+                                        className="w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl mt-2"
+                                        />
+                                </label>
+                            <button onClick={verifyOtp} disabled={loading} className={`sm:w-[30%] w-[40%] sm:h-[15%] h-[20%] border-solid border-2 border-[var(--black)] rounded-2xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
+                                {loading ? "Verifying..." : "Verify OTP"}
                             </button>
-                        </div>
-                    )}
+                            </div>
+                        )}
 
-                    {otpSent && !otpVerified && (
-                        <div className="w-full h-[80%] mt-10 flex flex-col items-center justify-center">
-                            <label htmlFor="otp" className="w-[70%] mb-10  mt-10">Enter OTP:
-                                <input
-                                    placeholder="Enter OTP"
-                                    value={otp}
-                                    onChange={e => setOtp(e.target.value)}
-                                    className="w-full h-[50%] p-3 border-solid border-2 mb-4 border-[var(--black)] rounded-2xl mt-2"
-                                    />
-                            </label>
-                        <button onClick={verifyOtp} disabled={loading} className={`min-w-[30%] h-[20%] border-solid border-2 border-[var(--black)] rounded-2xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
-                            {loading ? "Verifying..." : "Verify OTP"}
-                        </button>
-                        </div>
-                    )}
+                        {otpVerified && (
+                            <div className="w-full h-[80%] flex flex-col items-center justify-center">
+                                <label className="sm:w-[80%] w-[100%] mb-10"> Enter New Password:
+                                    <input
+                                        placeholder="New Password"
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={e => setNewPassword(e.target.value)}
+                                        className="w-[100%] h-[50%] p-3 border-solid border-2 border-[var(--black)] rounded-2xl mt-2"
+                                        />
+                                </label>
+                            <button onClick={resetPassword} disabled={loading} className={`sm:w-[40%] w-[70%] sm:h-[18%] h-[20%] border-solid border-2 border-[var(--black)] rounded-3xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
+                                {loading ? "Resetting..." : "Reset Password"}
+                            </button>
+                            </div>
+                        )}
 
-                    {otpVerified && (
-                        <div className="w-full h-[80%] mt-10 flex flex-col items-center justify-center">
-                            <label className="w-[70%] mb-10  mt-10"> Enter New Password:
-                                <input
-                                    placeholder="New Password"
-                                    type="password"
-                                    value={newPassword}
-                                    onChange={e => setNewPassword(e.target.value)}
-                                    className="w-full h-[50%] p-3 border-solid border-2  border-[var(--black)] rounded-2xl mt-2"
-                                    />
-                            </label>
-                        <button onClick={resetPassword} disabled={loading} className={`min-w-[40%] h-[20%] border-solid border-2 border-[var(--black)] rounded-3xl ${loading ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`}>
-                            {loading ? "Resetting..." : "Reset Password"}
-                        </button>
-                        </div>
-                    )}
-
-                    {message && (
-                        <div style={{ marginTop: "1rem", color: "gray" }}>
-                        {message}
-                        </div>
-                    )}
+                        {message && (
+                            <div style={{ marginTop: "1rem", color: "gray" }}>
+                            {message}
+                            </div>
+                        )}
                 </div>
+            </div>
 		</div>
 	);
 

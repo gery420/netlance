@@ -197,25 +197,25 @@ const LeftSignUp = () => {
 
     return (
         <div>
-            <div className="relative w-[70dvw] max-sm:h-[50vh] h-[100dvh] bg-[var(--white)] flex items-center justify-center">
-                <div className="w-[60%] relative h-[80%] flex items-center justify-center m-9 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
-                    <div className="w-[100%] top-0 mt-8 mb-2 absolute flex items-start justify-start">
-                        <Link to="/" className="text-[var(--black)] text-md ml-9">←Back</Link>
+            <div className="w-[100dvw] sm:w-[80dvw] lg:w-[50dvw] mt-40 h-fit flex items-center justify-center">
+                <div className="w-[100%] h-[100%] sm:h-[90%] flex flex-col items-center sm:mt-2 justify-start sm:m-2 m-4 shadow-[27px_27px_69px_rgb(219,215,219)] inset-[-27px_-27px_69px_rgb(255,255,255)] rounded-2xl border-[var(--black)]">
+                   <div className="w-[100%] mt-8 flex items-start justify-start">
+                        <Link to="/" className="text-[var(--black)] text-md sm:ml-9">←Back</Link>
                     </div>
-                    <div className="flex flex-col gap-2 relative items-center justify-center w-[70%] h-[100%]" >
-                        <div className="flex flex-row gap-4 items-center justify-evenly w-[100%]">
+                    <div className="flex flex-col mt-2 gap-2 items-center w-[90%] justify-center" >
+                        <div className="flex sm:flex-row flex-col sm:gap-4 items-center justify-evenly w-[100%]">
                             <label htmlFor="name" className="w-[100%]">
                             Full Name:
                                 <input type="text" value={data.name} name="name" placeholder="Full Name" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                             <br />
-                            <label htmlFor="userName" className="w-[90%]">
+                            <label htmlFor="userName" className="w-[100%]">
                             Username:
                                 <input type="text" value={data.username} name="username" placeholder="Username" required onChange={updateInfo} className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
                             </label>
                         </div>
                         <br />
-                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                        <div className="flex sm:flex-row flex-col sm:gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="password" className="w-[100%]">
                             Password:
                                 <input type="password" value={data.password} name="password" placeholder="Password" autoComplete="current-password" onChange={updateInfo} required className=" mt-1 w-[100%] h-[50%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
@@ -227,7 +227,7 @@ const LeftSignUp = () => {
                             </label>
                         </div>
                         <br />
-                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                        <div className="flex sm:flex-row flex-col sm:gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="profilePicture" for="upload" className="w-[100%]">
                             Profile Picture:
                                 <input type="file" accept="image/*" id="upload" name="profilePicture" onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl"/>
@@ -238,7 +238,7 @@ const LeftSignUp = () => {
                             </label>
                         </div>
                         <br />
-                        <div className="flex flex-row gap-4 items-start justify-evenly w-[100%]">
+                        <div className="flex sm:flex-row flex-col sm:gap-4 items-start justify-evenly w-[100%]">
                             <label htmlFor="phonenumber" className="w-[100%]">
                             Phone Number:
                                 <input type="text" name="phonenumber" value={data.phonenumber} placeholder="Phone Number" required onChange={updateInfo} className=" mt-1 w-[100%] h-[60%] p-2 border-solid border-2 border-[var(--black)] rounded-2xl" />
@@ -250,7 +250,7 @@ const LeftSignUp = () => {
                             </label>
                         </div>
                         <br />
-                        <div className="flex flex-row justify-evenly items-center w-[70%] mb-10">
+                        <div className="flex flex-row sm:gap-4 justify-evenly items-center w-[70%] ">
                             <label htmlFor="type">
                             Seller
                                 <input type="radio" name="type" value="seller" checked={data.type === "seller" ? true : false} onChange={updateInfo} className="ml-4"  />
@@ -261,8 +261,8 @@ const LeftSignUp = () => {
                                 <input type="radio" name="type" checked={data.type === "buyer" ? true : false} value="buyer" onChange={updateInfo} className=" ml-4" />
                             </label>
                         </div>
-                        <div className="flex justify-center items-center w-[100%]">
-                            <button onClick={submit} disabled={load} className={`w-[20%] h-[110%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Wait..": "Sign Up" }</button>  
+                        <div className="flex justify-center items-center mb-4 mt-4 w-[100%]">
+                            <button onClick={submit} disabled={load} className={`w-[30%] sm:w-[20%] h-[110%] p-1 relative border-solid border-2 border-[var(--black)] rounded-2xl ${load ? "bg-[var(--purple)] opacity-45 text-[var(--white)] cursor-not-allowed" : "hover:bg-[var(--purple)]"}`} type="submit">{load? "Wait..": "Sign Up" }</button>  
                         </div>
                     </div>
                 </div>

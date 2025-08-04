@@ -40,17 +40,17 @@ const Query = () => {
     return (
         <div>
             <Navbar />
-            <div className="mt-20 w-[99vw] flex items-center justify-center">
-                <div className="inline-flex flex-col flex-wrap flex-grow p-10 gap-8 w-[100%] justify-start items-start">
+            <div className="sm:mt-20 w-[99vw] mt-[20dvh] flex items-center justify-center">
+                <div className="flex flex-col flex-wrap flex-grow p-10 gap-8 w-[100%] justify-start items-start">
                     <div>
                         <p className="text-xl mb-4"><Link to="/">Home /</Link> Explore</p>
                     </div>
-                    <div className="flex flex-wrap gap-6 w-full justify-start items-start">
+                    <div className="flex flex-row flex-wrap flex-grow gap-6 w-full">
                         {gigs.length === 0 ? (
                             <p className="text-gray-500">No gigs found for "{searchQuery}"</p>
                         ) : (
                             gigs.map((gig) => (
-                                <div key={gig._id} className="bg-white p-4 rounded-xl w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
+                                <div key={gig._id} className="bg-white p-4 rounded-xl flex-grow-1 w-full sm:w-[40%] lg:w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
                                     <img
                                         src={`${gig.cover}`}
                                         alt={gig.title}

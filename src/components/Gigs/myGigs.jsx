@@ -127,18 +127,18 @@ const MyGigs = () => {
     }
 
     return (
-        <div className=" p-6 flex flex-col mt-[10dvh] items-center justify-center">
+        <div className=" p-6 flex flex-col mt-[20dvh] sm:mt-[10dvh] items-center justify-center">
             <Navbar />
-            <div className="w-full h-[15dvh] top-[10dvh] flex flex-row justify-between items-center">
-                <h1 className="text-3xl text-center ml-10 text-[var(--black)] font-bold font-Nunito">Your Gigs</h1>
-                <Link to="/createGig" className="w-[10%] h-[40%] p-3 transition-all duration-200 ease-in-out justify-self-center items-center text-center border-solid hover:bg-[var(--purple)] font-bold border-2 border-[var(--black)] mr-10 rounded-3xl" > Create a Gig</Link>
+            <div className="w-full h-[15dvh] top-[10dvh] flex-wrap flex sm:flex-row flex-col justify-between items-center">
+                <h1 className="text-3xl text-center text-[var(--black)] font-bold font-Nunito">Your Gigs</h1>
+                <Link to="/createGig" className="sm:w-[20%] lg:w-[15%] xl:w-[10%] w-[50%] h-[40%] p-3 transition-all duration-200 ease-in-out border-solid hover:bg-[var(--purple)] text-center items-center justify-center font-bold border-2 border-[var(--black)] rounded-3xl" > Create a Gig</Link>
             </div>
 
             <div className="p-10 size-full">
                 {gigs.length !== 0 ? (
-                    <div className="flex flex-wrap flex-row gap-6 justify-evenly items-start">
+                    <div className="flex flex-row flex-wrap flex-grow gap-6 w-full">
                         {gigs.map((gig) => (
-                            <div key={gig._id} className="bg-white p-4 rounded-xl w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
+                            <div key={gig._id} className="bg-white p-4 rounded-xl flex-grow-1 w-full sm:w-[40%] lg:w-[30%] shadow-[27px_27px_69px_rgb(219,215,219)]">
                                 <img
                                     src={`${gig.cover}`}
                                     alt={gig.title}
